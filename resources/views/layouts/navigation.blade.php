@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('Home') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
@@ -56,8 +56,8 @@
         
         <!-- Navigation Links (Vertical) -->
         <div class="hidden sm:flex flex-col space-y-4 sm:ms-10">
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
+                {{ __('Home') }}
             </x-nav-link>
             <x-nav-link :href="route('botigues.index')" :active="request()->routeIs('botigues.index')">
                 {{ __('Botigues') }}
@@ -69,8 +69,8 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
+                {{ __('Home') }}
             </x-responsive-nav-link>
         </div>
 
