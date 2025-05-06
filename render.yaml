@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: laravel-app
-    env: DOCKER
-    dockerfilePath: ./Dockerfile
-    port: 80
-    buildCommand: ""
-    plan: free
