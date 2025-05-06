@@ -62,6 +62,9 @@
             <x-nav-link :href="route('botigues.index')" :active="request()->routeIs('botigues.index')">
                 {{ __('Botigues') }}
             </x-nav-link>
+            <x-nav-link :href="route('botigues.mapa')" :active="request()->routeIs('botigues.mapa')">
+                {{ __('Mapa') }}
+            </x-nav-link>
         </div>
     </div>
     

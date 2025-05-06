@@ -11,7 +11,10 @@ class BotigaController extends Controller
     {
         return view('botiga.index'); // Asegúrate de que esta vista exista
     }
-
+    public function mapa()
+    {
+        return view('botiga.mapa'); // Asegúrate de que esta vista exista
+    }
     // Muestra un producto específico
     public function show($id)
     {
