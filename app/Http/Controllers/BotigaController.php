@@ -26,6 +26,21 @@ class BotigaController extends Controller
     {
         return view('botiga.crearb');
     }
+        // Muestra un formulario para crear un nuevo producto
+        public function users()
+        {
+            return view('botiga.users');
+        }
+            // Muestra un formulario para crear un nuevo producto
+    public function eliminar()
+    {
+        return view('botiga.eliminar');
+    }
+        // Muestra un formulario para crear un nuevo producto
+        public function edit()
+        {
+            return view('botiga.edit');
+        }
 
     // Guarda el nuevo productox
     public function store(Request $request)

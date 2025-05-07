@@ -16,7 +16,10 @@ Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::resource('/', BotigaController::class);  // Esto crea todas las rutas CRUD para botigues
     Route::get('/mapa', [BotigaController::class, 'mapa'])->name('botigues.mapa');
     Route::get('/crearb', [BotigaController::class, 'create'])->name('botigues.crearb');
-    Route::get('/botigues', [BotigaController::class, 'mapa'])->name('botigues.index');
+    Route::get('/edit', [BotigaController::class, 'edit'])->name('botigues.edit');
+    Route::get('/eliminar', [BotigaController::class, 'eliminar'])->name('botigues.eliminar');
+    Route::get('/users', [BotigaController::class, 'users'])->name('botigues.users');
+    Route::get('/botigues', [BotigaController::class, 'index'])->name('botigues.index');
 });
 
 Route::middleware('auth')->group(function () {

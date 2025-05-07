@@ -68,6 +68,15 @@
             <x-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
                 {{ __('Crear Botigues') }}
             </x-nav-link>
+            <x-nav-link :href="route('botigues.edit')" :active="request()->routeIs('botigues.edit')">
+                {{ __('Editar Botigues') }}
+            </x-nav-link>
+            <x-nav-link :href="route('botigues.eliminar')" :active="request()->routeIs('botigues.eliminar')">
+                {{ __('Eliminar Botigues') }}
+            </x-nav-link>
+            <x-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
+                {{ __('Roles de usuarios') }}
+            </x-nav-link>
         </div>
     </div>
     
@@ -111,3 +120,6 @@
         </div>
     </div>
 </nav>
+
+
+
