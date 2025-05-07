@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7x2 mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -65,19 +65,31 @@
             <x-nav-link :href="route('botigues.mapa')" :active="request()->routeIs('botigues.mapa')">
                 {{ __('Mapa') }}
             </x-nav-link>
+            <x-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
+                {{ __('Crear Botigues') }}
+            </x-nav-link>
         </div>
     </div>
     
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <!-- Mobile Menu -->
+    <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('botigues.index')" :active="request()->routeIs('botigues.index')">
+                {{ __('Botigues') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('botigues.mapa')" :active="request()->routeIs('botigues.mapa')">
+                {{ __('Mapa') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
+                {{ __('Crear Botigues') }}
+            </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
+        <!-- User Info -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
@@ -88,14 +100,10 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
-                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

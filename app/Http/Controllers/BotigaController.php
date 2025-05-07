@@ -24,10 +24,10 @@ class BotigaController extends Controller
     // Muestra un formulario para crear un nuevo producto
     public function create()
     {
-        return view('botiga.create');
+        return view('botiga.crearb');
     }
 
-    // Guarda el nuevo producto
+    // Guarda el nuevo productox
     public function store(Request $request)
     {
         // Aquí podrías guardar datos usando Eloquent, por ejemplo
