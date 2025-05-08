@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Botiga;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 
 class BotigaController extends Controller
@@ -9,11 +11,15 @@ class BotigaController extends Controller
     // Muestra una lista de productos, por ejemplo
     public function index()
     {
-        return view('botiga.index'); // Asegúrate de que esta vista exista
+        $botigues = Botiga::latest()->paginate(5);
+        return view('botiga.index', compact('botigues')); // Asegúrate de que esta vista exista
     }
-    public function mapa()
+    
+    public function mapa(): View
     {
-        return view('botiga.mapa'); // Asegúrate de que esta vista exista
+        $botigues = Botiga::all();
+        
+        return view('botiga.mapa', compact('botigues'));
     }
     // Muestra un producto específico
     public function show($id)
@@ -42,10 +48,20 @@ class BotigaController extends Controller
             return view('botiga.edit');
         }
 
-    // Guarda el nuevo productox
-    public function store(Request $request)
-    {
-        // Aquí podrías guardar datos usando Eloquent, por ejemplo
-        return redirect()->route('botiga.index');
-    }
+        public function store(Request $request)
+        {
+            $validated = $request->validate([
+                'nom' => 'required|string|max:255',
+                'descripcio' => 'nullable|string',
+                'adreca' => 'nullable|string',
+                'latitud' => 'nullable|numeric',
+                'longitud' => 'nullable|numeric',
+            ]);
+        
+            Botiga::create($validated);
+        
+            return redirect()->route('botigues.index')->with('success', 'Botiga creada correctament.');
+        }
+        
+
 }
