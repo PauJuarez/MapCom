@@ -20,11 +20,50 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <style>
+            .bg-primary-variant-1 { background-color: #E3E4FC !important; }
+            .bg-primary-variant-2 { background-color: #B5B9F7 !important; }
+            .bg-primary-variant-3 { background-color: #878FF2 !important; }
+            .bg-primary-variant-4 { background-color: #5564EB !important; }
+            .bg-primary-variant-5 { background-color: #273EC8 !important; }
+            .bg-primary-variant-6 { background-color: #15247F !important; }
+            .bg-primary-variant-7 { background-color: #050C3B !important; }
+    
+            .bg-secondary-variant-1 { background-color: #EEEBFC !important; }
+            .bg-secondary-variant-2 { background-color: #CCB9F7 !important; }
+            .bg-secondary-variant-3 { background-color: #ADB0F2 !important; }
+            .bg-secondary-variant-4 { background-color: #9155EB !important; }
+            .bg-secondary-variant-5 { background-color: #6F29C4 !important; }
+            .bg-secondary-variant-6 { background-color: #48167E !important; }
+            .bg-secondary-variant-7 { background-color: #20063F !important; }
+    
+            .bg-info-variant-1 { background-color: #E9F2FC !important; }
+            .bg-info-variant-2 { background-color: #ADD2F5 !important; }
+            .bg-info-variant-3 { background-color: #55AFEB !important; }
+            .bg-info-variant-4 { background-color: #4188B8 !important; }
+            .bg-info-variant-5 { background-color: #2D6387 !important; }
+            .bg-info-variant-6 { background-color: #1B4C59 !important; }
+            .bg-info-variant-7 { background-color: #0A202F !important; }
+    
+            .bg-gray-variant-1 { background-color: #E5E3E7 !important; }
+            .bg-gray-variant-2 { background-color: #BDBDC1 !important; }
+            .bg-gray-variant-3 { background-color: #97979D !important; }
+            .bg-gray-variant-4 { background-color: #72727A !important; }
+            .bg-gray-variant-5 { background-color: #4F4F58 !important; }
+            .bg-gray-variant-6 { background-color: #2F2F35 !important; }
+            .bg-gray-variant-7 { background-color: #121215 !important; }
+    
+            .text-primary-variant-4 { color: #5564EB !important; }
+            .text-secondary-variant-4 { color: #9155EB !important; }
+            .text-info-variant-3 { color: #55AFEB !important; }
+            .text-info-variant-4 { color: #E9F2FC !important; }
+        </style>
     </head>
-    <body class="font-sans antialiased">
+    
+    <body class="font-sans antialiased bg-gray-variant-1">
         <div class="min-h-screen flex flex-row bg-gray-100 dark:bg-gray-900">
             <!-- Sidebar or Navigation -->
-            <aside class="w-96 bg-white dark:bg-gray-800 shadow">
+            <aside class="w-96 bg-white dark:bg-gray-800 shadow bg-primary-variant-2">
                 @include('layouts.navigation')
             </aside>
         
@@ -32,7 +71,7 @@
             <div class="flex-1 flex flex-col">
                 <!-- Page Heading -->
                 @isset($header)
-                    <header class="bg-white dark:bg-gray-800 shadow">
+                    <header class="bg-white dark:bg-gray-800 shadow bg-primary-variant-5">
                         <div class="px-6 py-4">
                             {{ $header }}
                         </div>
@@ -40,9 +79,10 @@
                 @endisset
         
                 <!-- Page Content -->
-                <main class="flex-1 p-6">
+                <main class="flex-1 p-6 bg-info-variant-1">
                     {{ $slot }}
                 </main>
+
             </div>
         </div>
         

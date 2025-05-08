@@ -1,7 +1,7 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-primary-variant-2" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7x2 mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16 mt-4">
+        <div class="flex justify-between items-center h-16 pt-16 pb-14">
             <!-- Logo y Hamburguesa -->
             <div class="flex items-center">
                 <!-- Logo -->
@@ -58,7 +58,7 @@
         
         
         <!-- Navigation Links (Vertical) -->
-        <div class="hidden sm:flex flex-col space-y-4 sm:ms-10">
+        <div  class="hidden sm:flex flex-col space-y-4 sm:ms-10 ">
             <x-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
                 {{ __('Home') }}
             </x-nav-link>
