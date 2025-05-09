@@ -21,6 +21,11 @@ Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::get('/eliminar', [BotigaController::class, 'eliminar'])->name('botigues.eliminar');
     Route::get('/users', [BotigaController::class, 'users'])->name('botigues.users');
     Route::get('/botigues', [BotigaController::class, 'index'])->name('botigues.index');
+    Route::delete('/botigues/{id}', [BotigaController::class, 'destroy'])->name('botigues.destroy');
+    Route::get('/editone/{id}', [BotigaController::class, 'editone'])->name('editone');
+    Route::put('/botigues/{id}', [BotigaController::class, 'update'])->name('botigues.update');
+
+
 });
 
 Route::middleware('auth')->group(function () {

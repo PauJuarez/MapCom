@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Botiga;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class BotigaController extends Controller
 {
@@ -30,7 +32,10 @@ class BotigaController extends Controller
     // Muestra un formulario para crear un nuevo producto
     public function create()
     {
-        return view('botiga.crearb');
+        if (Gate::allows('access-admin')) {
+            return view('botiga.crearb');
+        }
+        abort(403, 'Unauthorized!');
     }
         // Muestra un formulario para crear un nuevo producto
         public function users()
@@ -40,13 +45,38 @@ class BotigaController extends Controller
             // Muestra un formulario para crear un nuevo producto
     public function eliminar()
     {
-        return view('botiga.eliminar');
+        $botigues = Botiga::latest()->paginate(5);
+        return view('botiga.eliminar', compact('botigues'));
     }
         // Muestra un formulario para crear un nuevo producto
         public function edit()
         {
-            return view('botiga.edit');
+            $botigues = Botiga::latest()->paginate(5);
+
+            return view('botiga.edit', compact('botigues'));
         }
+        public function editone($id)
+        {
+            $botiga = Botiga::findOrFail($id); // Encuentra la botiga por su ID
+            return view('botiga.editone', compact('botiga')); // Pasamos la tienda a la vista
+        }
+
+        public function update(Request $request, $id)
+        {
+            $validated = $request->validate([
+                'nom' => 'required|string|max:255',
+                'descripcio' => 'nullable|string',
+                'adreca' => 'nullable|string',
+                'latitud' => 'nullable|numeric',
+                'longitud' => 'nullable|numeric',
+            ]);
+        
+            $botiga = Botiga::findOrFail($id); // Encuentra la botiga a actualizar
+            $botiga->update($validated); // Actualiza los datos
+        
+            return redirect()->route('botigues.index')->with('success', 'Botiga actualizada correctamente.');
+        }
+        
 
         public function store(Request $request)
         {
@@ -62,6 +92,17 @@ class BotigaController extends Controller
         
             return redirect()->route('botigues.index')->with('success', 'Botiga creada correctament.');
         }
-        
+            // Método para eliminar una botiga
+    public function destroy($id)
+    {
+        // Buscar la botiga por su ID
+        $botiga = Botiga::findOrFail($id);
+
+        // Eliminar la botiga
+        $botiga->delete();
+
+        // Redirigir a la página anterior con un mensaje de éxito
+        return redirect()->route('botigues.index')->with('success', 'Botiga eliminada correctamente.');
+    }
 
 }
