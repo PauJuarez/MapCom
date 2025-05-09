@@ -63,10 +63,11 @@
     <body class="font-sans antialiased bg-gray-variant-1">
         <div class="min-h-screen flex flex-row bg-gray-100 dark:bg-gray-900">
             <!-- Sidebar or Navigation -->
-            <aside class="w-96 bg-white dark:bg-gray-800 shadow bg-primary-variant-2">
+            <aside class="w-18 md:w-64 lg:w-80 xl:w-96 bg-white dark:bg-gray-800 shadow bg-primary-variant-2">
                 @include('layouts.navigation')
             </aside>
-        
+
+            
             <!-- Main content area -->
             <div class="flex-1 flex flex-col">
                 <!-- Page Heading -->

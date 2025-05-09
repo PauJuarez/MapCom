@@ -43,11 +43,10 @@
 <body class="antialiased mi-fondo-principal">
     <div class="container">
         <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
+            <div class="col-md-6" style="width: 100%; max-width: 400px; height: 100%; margin: auto;">
                 <div class="card p-4 mi-fondo-carta">
-                    <img src="{{ asset('img/Logo.png') }}" alt="Logo" width="250" height="250" class="w-24 lg:w-32 mb-6 mx-auto block" />
-
-                    
+                    <h1 style="font-weight: bold; font-size: 2.2em; color: #48167E; text-align: center; line-height: 100px;">Register</h1>
+                        <br style="line-height: 100px;">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
@@ -85,6 +84,8 @@
                                 {{ __('Already registered?') }}
                             </a>
 
+                            <button onclick="window.history.back()" class="btn btn-primary ms-4 mi-boton-registro" style="background-color: #CCB9F7; color: purple; border-color: purple;">Back</button>
+                            
                             <x-primary-button class="btn btn-primary ms-4 mi-boton-registro">
                                 {{ __('Register') }}
                             </x-primary-button>

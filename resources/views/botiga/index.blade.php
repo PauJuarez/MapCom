@@ -11,9 +11,36 @@
                 @if($botigues->isEmpty())
                     <p class="text-gray-600 dark:text-gray-300">No hi ha botigues registrades.</p>
                 @else
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700 space-y-6">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700 space-y-6 relative">
                         @foreach($botigues as $botiga)
-                            <li class="py-6 px-4 flex justify-between items-center bg-[#e9f2fc] dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out">
+                            <li class="relative py-6 px-4 bg-[#e9f2fc] dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out">
+                                <!-- Botones arriba a la derecha -->
+                                <div class="absolute top-2 right-2 flex space-x-2">
+                                    <a href="{{ route('editone', ['id' => $botiga->id]) }}"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow transition duration-200"
+                                    title="Editar">
+                                        <!-- Icono: Pencil Square Solid -->
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h6a1 1 0 100-2H4a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3v-6a1 1 0 10-2 0v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </a>
+                    
+                                    <form action="{{ route('botigues.destroy', $botiga->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow transition duration-200"
+                                                title="Eliminar">
+                                            <!-- Icono: Trash Solid -->
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M6 2a1 1 0 011-1h6a1 1 0 011 1v1h4a1 1 0 110 2h-1v11a2 2 0 01-2 2H5a2 2 0 01-2-2V5H2a1 1 0 110-2h4V2zm2 4a1 1 0 012 0v7a1 1 0 11-2 0V6zm4 0a1 1 0 012 0v7a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                    
+                                <!-- Contenido de la tienda -->
                                 <div>
                                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $botiga->nom }}</h3>
                                     <p class="text-sm text-gray-700 dark:text-gray-300">{{ $botiga->adreca }}</p>
@@ -21,29 +48,10 @@
                                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{ $botiga->descripcio }}</p>
                                     @endif
                                 </div>
-                                <div class="flex space-x-4">
-                                    <!-- Botón de edición con icono -->
-                                    <a href="{{ route('editone', ['id' => $botiga->id]) }}" class="text-blue-600 hover:text-blue-800 flex items-center space-x-1 transition-colors duration-200">
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232a3 3 0 011.768 4.768L6 20H4v-2l12.464-12.464a3 3 0 011.768-4.768z"></path>
-                                        </svg>
-                                        <span class="font-medium">{{ __('Editar') }}</span>
-                                    </a>
-                                    <!-- Botón de eliminar con icono -->
-                                    <form action="{{ route('botigues.destroy', $botiga->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800 flex items-center space-x-1 transition-colors duration-200">
-                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                            <span class="font-medium">{{ __('Eliminar') }}</span>
-                                        </button>
-                                    </form>
-                                </div>
                             </li>
                         @endforeach
                     </ul>
+                
                 @endif
 
                 <!-- Paginación -->

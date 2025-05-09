@@ -29,11 +29,12 @@
 <body class="antialiased mi-fondo-principal">
     <div class="container">
         <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
+            <div class="col-md-4" style="width: 100%; max-width: 400px; height: 100%; margin: auto;">
                 <div class="card mi-fondo-carta">  <div class="card-body">
-                        <x-auth-session-status class="mb-4 alert alert-success" :status="session('status')" />
-                        <img src="{{ asset('img/Logo.png') }}" alt="Logo" width="250" height="250" class="w-24 lg:w-32 mb-6 mx-auto block" />
-
+                    <x-auth-session-status class="mb-4 alert alert-success" :status="session('status')" />
+                        <h1 style="font-weight: bold; font-size: 2.2em; color: blue; text-align: center; line-height: 100px;">Login</h1>
+                        <br style="line-height: 100px;">
+                        
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
@@ -42,7 +43,6 @@
                                 <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
                                 <x-input-error :messages="$errors->get('email')" class="mt-2 alert alert-danger" />
                             </div>
-
                             <div class="mb-3">
                                 <x-input-label for="password" :value="__('Password')" class="form-label mi-color-principal" />
                                 <x-text-input id="password" class="form-control"
@@ -59,13 +59,13 @@
 
                             <div class="d-flex align-items-center justify-content-between mt-4">
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link mi-color-principal" href="{{ route('password.request') }}">
+                                    <a style="font-size: 0.83em;"class="btn btn-link mi-color-principal" href="{{ route('password.request') }}">
                                         {{ __('Forgot your password?') }}
                                     </a>
                                 @endif
-
-                                <x-primary-button class="btn btn-primary ms-3 mi-boton-principal">
-                                    {{ __('Log in') }}
+                                <button onclick="window.history.back()" class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #ADD2F5; color: black;">Back</button>
+                                <x-primary-button class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #5564eb; border: none;">
+                                    {{ __('Login') }}
                                 </x-primary-button>
                             </div>
                         </form>

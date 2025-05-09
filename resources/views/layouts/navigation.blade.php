@@ -1,9 +1,9 @@
-<nav x-data="{ open: false }" class="bg-primary-variant-2" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-primary-variant-2 bg-white ">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7x2 mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16 pt-16 pb-14 pl-8">
+    <div class="mx-0 px-0 sm:mx-auto sm:px-6 lg:px-8 xl:px-4 max-w-7xl">
+        <div class="flex justify-between items-center h-16 pt-16 pb-14 pl-0 md:pl-8">
             <!-- Logo y Hamburguesa -->
-            <div class="flex items-center">
+            <div class="flex items-center flex-col sm:flex-row">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('Home') }}">
@@ -12,7 +12,7 @@
                 </div>
         
                 <!-- Hamburger -->
-                <div class="-me-2 flex items-center sm:hidden ms-4">
+                <div class="sm:hidden">
                     <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -58,28 +58,29 @@
         
         
         <!-- Navigation Links (Vertical) -->
-        <div  class="hidden sm:flex flex-col space-y-4 sm:ms-10 ">
+        <div class="hidden sm:flex flex-col space-y-4 sm:ms-10 ">
             <x-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
-                {{ __('Home') }}
+                <span class="text-lg">{{ __('Home') }}</span>
             </x-nav-link>
             <x-nav-link :href="route('botigues.index')" :active="request()->routeIs('botigues.index')">
-                {{ __('Botigues') }}
+                <span class="text-lg">{{ __('Botigues') }}</span>
             </x-nav-link>
             <x-nav-link :href="route('botigues.mapa')" :active="request()->routeIs('botigues.mapa')">
-                {{ __('Mapa') }}
+                <span class="text-lg">{{ __('Mapa') }}
             </x-nav-link>
             <x-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
-                {{ __('Crear Botigues') }}
+                <span class="text-lg">{{ __('Crear Botigues') }}</span>
             </x-nav-link>
             <x-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
-                {{ __('Roles de usuarios') }}
+                <span class="text-lg">{{ __('Roles de usuarios') }}</span>
             </x-nav-link>
         </div>
     </div>
     
 
     <!-- Mobile Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden transition-all duration-300 ease-in-out"
+        :class="{'w-14': !open, 'w-64': open, 'max-w-full': open}">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
                 {{ __('Home') }}
@@ -117,6 +118,3 @@
         </div>
     </div>
 </nav>
-
-
-
