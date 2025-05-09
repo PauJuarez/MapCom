@@ -27,8 +27,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Centro de Catalunya
-            const catalunyaCenter = [41.6, 1.8];
-            const map = L.map('map').setView(catalunyaCenter, 7);
+            const catalunyaCenter = [41.6663, 1.8597];
+            const map = L.map('map').setView(catalunyaCenter, 15.2);
 
             // Capa base
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

@@ -24,42 +24,37 @@ class BotigaController extends Controller
         return view('botiga.mapa', compact('botigues'));
     }
     // Muestra un producto específico
-    public function show($id)
-    {
-        return view('botiga.show', ['id' => $id]);
-    }
+    //public function show($id)
+    //{
+    //    return view('botiga.show', ['id' => $id]);
+    //}
 
     // Muestra un formulario para crear un nuevo producto
     public function create()
     {
-        if (Gate::allows('access-admin')) {
+        if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
             return view('botiga.crearb');
         }
         abort(403, 'Unauthorized!');
     }
-        // Muestra un formulario para crear un nuevo producto
-        public function users()
-        {
-            return view('botiga.users');
-        }
-            // Muestra un formulario para crear un nuevo producto
-    public function eliminar()
-    {
-        $botigues = Botiga::latest()->paginate(5);
-        return view('botiga.eliminar', compact('botigues'));
-    }
-        // Muestra un formulario para crear un nuevo producto
-        public function edit()
-        {
-            $botigues = Botiga::latest()->paginate(5);
 
-            return view('botiga.edit', compact('botigues'));
-        }
-        public function editone($id)
-        {
+
+    // Muestra un formulario para crear un nuevo producto
+    public function users()
+    {
+        return view('botiga.users');
+    }
+
+
+
+    public function editone($id)
+    {
+        if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
             $botiga = Botiga::findOrFail($id); // Encuentra la botiga por su ID
             return view('botiga.editone', compact('botiga')); // Pasamos la tienda a la vista
         }
+        abort(403, 'Unauthorized!');
+    }
 
         public function update(Request $request, $id)
         {
@@ -95,14 +90,12 @@ class BotigaController extends Controller
             // Método para eliminar una botiga
     public function destroy($id)
     {
-        // Buscar la botiga por su ID
-        $botiga = Botiga::findOrFail($id);
-
-        // Eliminar la botiga
-        $botiga->delete();
-
-        // Redirigir a la página anterior con un mensaje de éxito
-        return redirect()->route('botigues.index')->with('success', 'Botiga eliminada correctamente.');
+        if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
+            $botiga = Botiga::findOrFail($id);
+            $botiga->delete();
+            return redirect()->route('botigues.index')->with('success', 'Botiga eliminada correctamente.');
+        }
+        abort(403, 'Unauthorized!');
     }
 
 }

@@ -17,8 +17,6 @@ Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::get('/mapa', [BotigaController::class, 'mapa'])->name('botigues.mapa');
     Route::get('/crearb', [BotigaController::class, 'create'])->name('botigues.crearb');
     Route::post('/botigues', [BotigaController::class, 'store'])->name('botigues.store');
-    Route::get('/edit', [BotigaController::class, 'edit'])->name('botigues.edit');
-    Route::get('/eliminar', [BotigaController::class, 'eliminar'])->name('botigues.eliminar');
     Route::get('/users', [BotigaController::class, 'users'])->name('botigues.users');
     Route::get('/botigues', [BotigaController::class, 'index'])->name('botigues.index');
     Route::delete('/botigues/{id}', [BotigaController::class, 'destroy'])->name('botigues.destroy');
