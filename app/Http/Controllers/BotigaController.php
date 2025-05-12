@@ -15,7 +15,7 @@ class BotigaController extends Controller
     // Muestra una lista de productos, por ejemplo
     public function index()
     {
-        $botigues = Botiga::latest()->paginate(5);
+        $botigues = Botiga::latest()->paginate(3);
         return view('botiga.index', compact('botigues')); // Asegúrate de que esta vista exista
     }
     
@@ -45,7 +45,7 @@ class BotigaController extends Controller
     // Muestra un formulario para crear un nuevo producto
     public function users()
     {
-        $users = User::latest()->paginate(5);
+        $users = User::latest()->paginate(3);
         return view('botiga.users', compact('users')); // Asegúrate de que esta vista exista
     }
 

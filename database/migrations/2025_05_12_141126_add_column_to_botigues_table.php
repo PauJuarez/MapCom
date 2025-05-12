@@ -6,33 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('botigues', function (Blueprint $table) {
-            $table->id();
-            $table->string('nom');
-            $table->text('descripcio')->nullable();
-            $table->string('adreca')->nullable();
-            $table->decimal('latitud', 10, 7)->nullable();
-            $table->decimal('longitud', 10, 7)->nullable();
+        Schema::table('botigues', function (Blueprint $table) {
             $table->date('horariObertura')->nullable();
             $table->date('horariTencament')->nullable(); // corregido
             $table->integer('telefono')->nullable(); // corregido
             $table->string('coreoelectronic')->nullable();
             $table->string('web')->nullable();
             $table->string('imatge')->nullable();
-            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('botigues'); // corregido
+        Schema::table('botigues', function (Blueprint $table) {
+            $table->dropColumn('nova_columna');
+        });
     }
 };
+

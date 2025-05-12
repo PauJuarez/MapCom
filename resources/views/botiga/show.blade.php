@@ -23,6 +23,50 @@
                         </div>
                     @endif
 
+                    @if($botiga->horariObertura)
+                        <div class="mb-4">
+                            <strong class="text-info-variant-3 dark:text-info-variant-4">Horari d'Obertura:</strong>
+                            <p class="text-gray-700 dark:text-gray-300">{{ $botiga->horariObertura }}</p>
+                        </div>
+                    @endif
+
+                    @if($botiga->horariTancament)
+                        <div class="mb-4">
+                            <strong class="text-info-variant-3 dark:text-info-variant-4">Horari de Tancament:</strong>
+                            <p class="text-gray-700 dark:text-gray-300">{{ $botiga->horariTancament }}</p>
+                        </div>
+                    @endif
+
+                    @if($botiga->telefono)
+                        <div class="mb-4">
+                            <strong class="text-info-variant-3 dark:text-info-variant-4">Telèfon:</strong>
+                            <p class="text-gray-700 dark:text-gray-300">{{ $botiga->telefono }}</p>
+                        </div>
+                    @endif
+
+                    @if($botiga->coreoelectronic)
+                        <div class="mb-4">
+                            <strong class="text-info-variant-3 dark:text-info-variant-4">Correu Electrònic:</strong>
+                            <p class="text-gray-700 dark:text-gray-300">{{ $botiga->coreoelectronic }}</p>
+                        </div>
+                    @endif
+
+                    @if($botiga->web)
+                        <div class="mb-4">
+                            <strong class="text-info-variant-3 dark:text-info-variant-4">Web:</strong>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                <a href="{{ $botiga->web }}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">{{ $botiga->web }}</a>
+                            </p>
+                        </div>
+                    @endif
+
+                    @if($botiga->imatge)
+                        <div class="mb-4">
+                            <strong class="text-info-variant-3 dark:text-info-variant-4">Imatge:</strong>
+                            <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded-md max-w-full h-auto">
+                        </div>
+                    @endif
+
                     @if($botiga->latitud && $botiga->longitud)
                         <div class="mb-4">
                             <strong class="text-info-variant-3 dark:text-info-variant-4">Coordenades:</strong>
