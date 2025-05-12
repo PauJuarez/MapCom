@@ -40,11 +40,11 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="antialiased mi-fondo-principal">
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6" style="width: 100%; max-width: 400px; height: 100%; margin: auto;">
-                <div class="card p-4 mi-fondo-carta">
+<body class="antialiased mi-fondo-principal" style="height: 100vh; margin: 0;">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+        <div class="col-md-4" style="width: 100%; max-width: 400px;">
+            <div class="card mi-fondo-carta">
+                <div class="card-body">
                     <h1 style="font-weight: bold; font-size: 2.2em; color: #48167E; text-align: center; line-height: 100px;">Register</h1>
                         <br style="line-height: 100px;">
                     <form method="POST" action="{{ route('register') }}">

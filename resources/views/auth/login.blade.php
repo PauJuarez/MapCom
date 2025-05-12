@@ -26,11 +26,11 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="antialiased mi-fondo-principal">
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-4" style="width: 100%; max-width: 400px; height: 100%; margin: auto;">
-                <div class="card mi-fondo-carta">  <div class="card-body">
+<body class="antialiased mi-fondo-principal" style="height: 100vh; margin: 0;">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+        <div class="col-md-4" style="width: 100%; max-width: 400px;">
+            <div class="card mi-fondo-carta">
+                <div class="card-body">
                     <x-auth-session-status class="mb-4 alert alert-success" :status="session('status')" />
                         <h1 style="font-weight: bold; font-size: 2.2em; color: blue; text-align: center; line-height: 100px;">Login</h1>
                         <br style="line-height: 100px;">
