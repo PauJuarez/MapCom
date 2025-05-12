@@ -30,10 +30,10 @@
                         </div>
                     @endif
 
-                    @if($botiga->horariTancament)
+                    @if($botiga->horariTencament)
                         <div class="mb-4">
                             <strong class="text-info-variant-3 dark:text-info-variant-4">Horari de Tancament:</strong>
-                            <p class="text-gray-700 dark:text-gray-300">{{ $botiga->horariTancament }}</p>
+                            <p class="text-gray-700 dark:text-gray-300">{{ $botiga->horariTencament }}</p>
                         </div>
                     @endif
 

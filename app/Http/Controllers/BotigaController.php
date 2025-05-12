@@ -54,7 +54,7 @@ class BotigaController extends Controller
     public function editone($id)
     {
         if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
-            $botiga = Botiga::findOrFail($id); // Encuentra la botiga por su ID
+            $botiga = Botiga::findOrFail($id); // Encuentra la botiga por su IDç
             return view('botiga.editone', compact('botiga')); // Pasamos la tienda a la vista
         }
         abort(403, 'Unauthorized!');
@@ -68,8 +68,8 @@ class BotigaController extends Controller
                 'adreca' => 'nullable|string|max:255',
                 'latitud' => 'nullable|numeric',
                 'longitud' => 'nullable|numeric',
-                'horariObertura' => 'nullable|date',
-                'horariTencament' => 'nullable|date',
+                'horariObertura' => 'nullable|date_format:H:i',
+                'horariTencament' => 'nullable|date_format:H:i',
                 'telefono' => 'nullable|integer',
                 'coreoelectronic' => 'nullable|email|max:255',
                 'web' => 'nullable|url|max:255',
@@ -92,8 +92,8 @@ class BotigaController extends Controller
             'adreca' => 'nullable|string|max:255',
             'latitud' => 'nullable|numeric',
             'longitud' => 'nullable|numeric',
-            'horariObertura' => 'nullable|date',
-            'horariTencament' => 'nullable|date',
+            'horariObertura' => 'nullable|date_format:H:i',
+            'horariTencament' => 'nullable|date_format:H:i',
             'telefono' => 'nullable|integer',
             'coreoelectronic' => 'nullable|email|max:255',
             'web' => 'nullable|url|max:255',

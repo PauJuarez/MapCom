@@ -67,10 +67,10 @@
                                    class="form-control mt-1 rounded-md dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600">
                         </div>
                         <div class="col-md-6">
-                            <label for="horariTancament"
+                            <label for="horariTencament"
                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Horari de Tancament') }}</label>
-                            <input type="time" name="horariTancament" id="horariTancament"
-                                   value="{{ old('horariTancament', $botiga->horariTancament) }}"
+                            <input type="time" name="horariTencament" id="horariTencament"
+                                   value="{{ old('horariTencament', $botiga->horariTencament) }}"
                                    class="form-control mt-1 rounded-md dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600">
                         </div>
                     </div>
