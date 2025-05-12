@@ -46,6 +46,8 @@
                                     <p class="text-sm text-gray-700 dark:text-gray-300">{{ $botiga->adreca }}</p>
                                     @if($botiga->descripcio)
                                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{ $botiga->descripcio }}</p>
+                                         <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+                                        <a href="{{ route('botiga.show', $botiga->id) }}">Veure Detalls</a>
                                     @endif
                                 </div>
                             </li>

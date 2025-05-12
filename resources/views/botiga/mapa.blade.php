@@ -60,8 +60,10 @@
                         .bindPopup(`
                             <strong>${botiga.nom}</strong><br>
                             ${botiga.adreca || 'Sense adreça'}<br>
-                            <em>${botiga.descripcio || ''}</em>
+                            <em>${botiga.descripcio || ''}</em><br><br>
+                            <a href="/botigues/botiga/${botiga.id}" class="text-blue-500 hover:text-blue-700 underline">Veure Detalls</a>
                         `);
+
                     marcadores++;
                 }
             });

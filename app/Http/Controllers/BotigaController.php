@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Botiga;
+use App\Models\User;
+
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +26,11 @@ class BotigaController extends Controller
         return view('botiga.mapa', compact('botigues'));
     }
     // Muestra un producto específico
-    //public function show($id)
-    //{
-    //    return view('botiga.show', ['id' => $id]);
-    //}
+    public function show($id):view
+    {
+        $botiga = Botiga::findOrFail($id); // Busca la botiga por su ID o lanza una excepción 404 si no existe
+        return view('botiga.show', compact('botiga'));
+    }
 
     // Muestra un formulario para crear un nuevo producto
     public function create()
@@ -42,7 +45,8 @@ class BotigaController extends Controller
     // Muestra un formulario para crear un nuevo producto
     public function users()
     {
-        return view('botiga.users');
+        $users = User::latest()->paginate(5);
+        return view('botiga.users', compact('users')); // Asegúrate de que esta vista exista
     }
 
 
@@ -96,6 +100,19 @@ class BotigaController extends Controller
             return redirect()->route('botigues.index')->with('success', 'Botiga eliminada correctamente.');
         }
         abort(403, 'Unauthorized!');
+    }
+    
+        public function updateRole(Request $request, $id)
+    {
+        $request->validate([
+            'role' => 'required|in:user,editor,admin',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->role = $request->input('role');
+        $user->save();
+
+        return redirect()->route('botigues.users')->with('success', 'Rol actualizado correctamente.');
     }
 
 }

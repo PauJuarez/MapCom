@@ -18,10 +18,13 @@ Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::get('/crearb', [BotigaController::class, 'create'])->name('botigues.crearb');
     Route::post('/botigues', [BotigaController::class, 'store'])->name('botigues.store');
     Route::get('/users', [BotigaController::class, 'users'])->name('botigues.users');
+    Route::put('/users/{id}/update-role', [BotigaController::class, 'updateRole'])->name('users.updateRole');
     Route::get('/botigues', [BotigaController::class, 'index'])->name('botigues.index');
     Route::delete('/botigues/{id}', [BotigaController::class, 'destroy'])->name('botigues.destroy');
     Route::get('/editone/{id}', [BotigaController::class, 'editone'])->name('editone');
     Route::put('/botigues/{id}', [BotigaController::class, 'update'])->name('botigues.update');
+    Route::get('/botiga/{id}', [BotigaController::class, 'show'])->name('botiga.show');
+    
 
 
 });
