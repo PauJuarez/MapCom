@@ -68,12 +68,17 @@
             <x-nav-link :href="route('botigues.mapa')" :active="request()->routeIs('botigues.mapa')">
                 <span class="text-lg">{{ __('Mapa') }}
             </x-nav-link>
-            <x-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
-                <span class="text-lg">{{ __('Crear Botigues') }}</span>
-            </x-nav-link>
-            <x-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
-                <span class="text-lg">{{ __('Roles de usuarios') }}</span>
-            </x-nav-link>
+            @if(Gate::allows('access-admin') || Gate::allows('access-editor'))
+                <x-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
+                    <span class="text-lg">{{ __('Crear Botigues') }}</span>
+                </x-nav-link>
+            @endif
+            @if(Gate::allows('access-admin'))
+
+                <x-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
+                    <span class="text-lg">{{ __('Roles de usuarios') }}</span>
+                </x-nav-link>
+            @endif
         </div>
     </div>
     

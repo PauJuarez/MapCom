@@ -16,28 +16,56 @@
                             <li class="relative py-6 px-4 bg-[#e9f2fc] dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out">
                                 <!-- Botones arriba a la derecha -->
                                 <div class="absolute top-2 right-2 flex space-x-2">
-                                    <a href="{{ route('editone', ['id' => $botiga->id]) }}"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow transition duration-200"
-                                    title="Editar">
-                                        <!-- Icono: Pencil Square Solid -->
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
-                                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h6a1 1 0 100-2H4a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3v-6a1 1 0 10-2 0v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </a>
-                    
-                                    <form action="{{ route('botigues.destroy', $botiga->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow transition duration-200"
-                                                title="Eliminar">
-                                            <!-- Icono: Trash Solid -->
+                                    @if(Gate::allows('access-admin') || Gate::allows('access-editor'))
+                                        <a href="{{ route('editone', ['id' => $botiga->id]) }}"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow transition duration-200"
+                                        title="Editar">
+                                            <!-- Icono: Pencil Square Solid -->
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M6 2a1 1 0 011-1h6a1 1 0 011 1v1h4a1 1 0 110 2h-1v11a2 2 0 01-2 2H5a2 2 0 01-2-2V5H2a1 1 0 110-2h4V2zm2 4a1 1 0 012 0v7a1 1 0 11-2 0V6zm4 0a1 1 0 012 0v7a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
+                                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                                                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h6a1 1 0 100-2H4a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3v-6a1 1 0 10-2 0v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" clip-rule="evenodd"/>
                                             </svg>
-                                        </button>
-                                    </form>
+                                        </a>
+                        
+                                        <form action="{{ route('botigues.destroy', $botiga->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow transition duration-200"
+                                                    title="Eliminar">
+                                                <!-- Icono: Trash Solid -->
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M6 2a1 1 0 011-1h6a1 1 0 011 1v1h4a1 1 0 110 2h-1v11a2 2 0 01-2 2H5a2 2 0 01-2-2V5H2a1 1 0 110-2h4V2zm2 4a1 1 0 012 0v7a1 1 0 11-2 0V6zm4 0a1 1 0 012 0v7a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
+                                    
+@php
+    $user = auth()->user();
+    $esFavorita = $user && $user->favoritos && $user->favoritos->contains($botiga->id);
+@endphp
+
+<form action="{{ $esFavorita ? route('botigues.treureFavorit', $botiga->id) : route('botigues.afegirFavorit', $botiga->id) }}"
+    method="POST">
+    @csrf
+    @if($esFavorita)
+        @method('DELETE')
+    @endif
+    <button type="submit"
+        class="bg-yellow-400 hover:bg-yellow-500 text-white rounded-full p-2 shadow transition duration-200"
+        title="{{ $esFavorita ? 'Treure de favorits' : 'Afegir a favorits' }}">
+        <svg class="w-5 h-5" fill="{{ $esFavorita ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.518 4.674a1 1 0 00.95.69h4.909c.969 0 1.371 1.24.588 1.81l-3.977 2.89a1 1 0 00-.364 1.118l1.518 4.674c.3.921-.755 1.688-1.54 1.118l-3.977-2.89a1 1 0 00-1.175 0l-3.977 2.89c-.784.57-1.838-.197-1.54-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.98 10.101c-.783-.57-.38-1.81.588-1.81h4.91a1 1 0 00.949-.69l1.518-4.674z" />
+        </svg>
+    </button>
+</form>
+
+
+
+
+                                    
                                 </div>
                     
                                 <!-- Contenido de la tienda -->

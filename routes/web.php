@@ -8,8 +8,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('/Home', function () {
-    return view('Home');
+    // Obtener el usuario autenticado
+    $user = auth()->user();
+
+    // Obtener las tiendas favoritas paginadas
+    $botigues = $user ? $user->favoritos()->paginate(3) : collect();
+
+    // Pasar las tiendas favoritas paginadas a la vista
+    return view('Home', compact('botigues'));
 })->middleware(['auth', 'verified'])->name('Home');
 
 Route::prefix('botigues')->middleware('auth')->group(function () {
@@ -24,7 +33,9 @@ Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::get('/editone/{id}', [BotigaController::class, 'editone'])->name('editone');
     Route::put('/botigues/{id}', [BotigaController::class, 'update'])->name('botigues.update');
     Route::get('/botiga/{id}', [BotigaController::class, 'show'])->name('botiga.show');
-    
+Route::post('/botigues/{botiga}/afegir-favorit', [BotigaController::class, 'afegirFavorit'])->name('botigues.afegirFavorit');
+Route::delete('/botigues/{botiga}/treure-favorit', [BotigaController::class, 'treureFavorit'])->name('botigues.treureFavorit');
+
 
 
 });

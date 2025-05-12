@@ -47,4 +47,9 @@ class User extends Authenticatable
         ];
     }
 
+        public function favoritos()
+    {
+        return $this->belongsToMany(Botiga::class, 'favoritos', 'user_id', 'botiga_id')
+                    ->withTimestamps(); // Si deseas registrar las marcas de tiempo de cuando se agregó/eliminó un favorito
+    }
 }

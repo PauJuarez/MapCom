@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Botiga extends Model
 {
     protected $table = 'botigues'; // Tabla en plural (por defecto Laravel esperaría "botigas")
-    protected $fillable = ['nom', 'descripcio', 'adreca', 'latitud', 'longitud'];
+    protected $fillable = ['nom', 'descripcio', 'adreca', 'latitud', 'longitud','horariObertura','horariTencament','telefono','coreoelectronic','web','imatge'];
+    
+
+
+
+
 }

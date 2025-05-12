@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('botigues', function (Blueprint $table) {
+        Schema::create('favoritos', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->text('descripcio')->nullable();
-            $table->string('adreca')->nullable();
-            $table->decimal('latitud', 10, 7)->nullable();
-            $table->decimal('longitud', 10, 7)->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('botiga_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('botiga_id')->references('id')->on('botigues')->onDelete('cascade');
+     
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('botigues'); // corregido
+        Schema::dropIfExists('favoritos');
     }
 };

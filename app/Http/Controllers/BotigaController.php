@@ -65,10 +65,17 @@ class BotigaController extends Controller
             $validated = $request->validate([
                 'nom' => 'required|string|max:255',
                 'descripcio' => 'nullable|string',
-                'adreca' => 'nullable|string',
+                'adreca' => 'nullable|string|max:255',
                 'latitud' => 'nullable|numeric',
                 'longitud' => 'nullable|numeric',
+                'horariObertura' => 'nullable|date',
+                'horariTencament' => 'nullable|date',
+                'telefono' => 'nullable|integer',
+                'coreoelectronic' => 'nullable|email|max:255',
+                'web' => 'nullable|url|max:255',
+                'imatge' => 'nullable|string|max:255',
             ]);
+
         
             $botiga = Botiga::findOrFail($id); // Encuentra la botiga a actualizar
             $botiga->update($validated); // Actualiza los datos
@@ -79,13 +86,20 @@ class BotigaController extends Controller
 
         public function store(Request $request)
         {
-            $validated = $request->validate([
-                'nom' => 'required|string|max:255',
-                'descripcio' => 'nullable|string',
-                'adreca' => 'nullable|string',
-                'latitud' => 'nullable|numeric',
-                'longitud' => 'nullable|numeric',
-            ]);
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'descripcio' => 'nullable|string',
+            'adreca' => 'nullable|string|max:255',
+            'latitud' => 'nullable|numeric',
+            'longitud' => 'nullable|numeric',
+            'horariObertura' => 'nullable|date',
+            'horariTencament' => 'nullable|date',
+            'telefono' => 'nullable|integer',
+            'coreoelectronic' => 'nullable|email|max:255',
+            'web' => 'nullable|url|max:255',
+            'imatge' => 'nullable|string|max:255',
+        ]);
+
         
             Botiga::create($validated);
         
@@ -102,7 +116,7 @@ class BotigaController extends Controller
         abort(403, 'Unauthorized!');
     }
     
-        public function updateRole(Request $request, $id)
+    public function updateRole(Request $request, $id)
     {
         $request->validate([
             'role' => 'required|in:user,editor,admin',
@@ -114,5 +128,18 @@ class BotigaController extends Controller
 
         return redirect()->route('botigues.users')->with('success', 'Rol actualizado correctamente.');
     }
+
+    public function afegirFavorit(Botiga $botiga)
+    {
+        auth()->user()->favoritos()->syncWithoutDetaching([$botiga->id]);
+        return back()->with('success', 'Afegida als favorits!');
+    }
+
+    public function treureFavorit(Botiga $botiga)
+    {
+        auth()->user()->favoritos()->detach($botiga->id);
+        return back()->with('success', 'Eliminada dels favorits!');
+    }
+
 
 }
