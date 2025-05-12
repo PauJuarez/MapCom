@@ -59,7 +59,7 @@
                 <!-- Paginación -->
                 <div class="mt-6">
                     <div class="flex justify-end">
-                        {{ $users->links('pagination::tailwind') }}
+                        {{ $botigues->links('pagination::tailwind') }}
                     </div>
                 </div>
             </div>
