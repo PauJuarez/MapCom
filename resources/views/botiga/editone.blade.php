@@ -89,7 +89,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">Formato: +Código País Número</small>
+                            <small class="form-text text-muted">Formato: +34 Código País Número</small>
                             <div id="phoneDisplayArea" style="margin-top: 10px;">
                                 <strong>Teléfono:</strong>
                                 <span id="phoneNumberDisplay">

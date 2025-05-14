@@ -11,7 +11,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
                 <!-- Contenedor del mapa -->
                 <div id="map" style="height: 600px;"></div>
                 

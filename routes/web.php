@@ -35,7 +35,9 @@ Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::get('/botiga/{id}', [BotigaController::class, 'show'])->name('botiga.show');
 Route::post('/botigues/{botiga}/afegir-favorit', [BotigaController::class, 'afegirFavorit'])->name('botigues.afegirFavorit');
 Route::delete('/botigues/{botiga}/treure-favorit', [BotigaController::class, 'treureFavorit'])->name('botigues.treureFavorit');
-
+    Route::post('/botigues/{botiga}/ressenya', [BotigaController::class, 'guardarRessenya'])
+        ->middleware('auth')
+        ->name('botigues.ressenya.guardar');
 
 
 });

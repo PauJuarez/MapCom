@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Botiga;
 use App\Models\User;
+use App\Models\Ressenya;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -25,11 +26,19 @@ class BotigaController extends Controller
         
         return view('botiga.mapa', compact('botigues'));
     }
-    // Muestra un producto específico
+
     public function show($id):view
     {
-        $botiga = Botiga::findOrFail($id); // Busca la botiga por su ID o lanza una excepción 404 si no existe
-        return view('botiga.show', compact('botiga'));
+        $botiga = Botiga::findOrFail($id);
+        
+        // Calcular el promedio de las valoraciones y el total de reseñas
+        $totalValoraciones = $botiga->ressenyes->sum('valoracio');  // Sumar todas las valoraciones
+        $totalResenyas = $botiga->ressenyes->count();  // Contar las reseñas
+        
+        // Calcular el promedio de valoraciones (si hay reseñas)
+        $promedioValoracion = $totalResenyas > 0 ? $totalValoraciones / $totalResenyas : 0;
+        
+        return view('botiga.show', compact('botiga', 'promedioValoracion', 'totalResenyas'));
     }
 
     // Muestra un formulario para crear un nuevo producto
@@ -70,7 +79,7 @@ class BotigaController extends Controller
                 'longitud' => 'nullable|numeric',
                 'horariObertura' => 'nullable|date_format:H:i',
                 'horariTencament' => 'nullable|date_format:H:i',
-                'telefono' => 'nullable|integer',
+                'telefono' => 'nullable|digits:9',
                 'coreoelectronic' => 'nullable|email|max:255',
                 'web' => 'nullable|url|max:255',
                 'imatge' => 'nullable|string|max:255',
@@ -94,7 +103,7 @@ class BotigaController extends Controller
             'longitud' => 'nullable|numeric',
             'horariObertura' => 'nullable|date_format:H:i',
             'horariTencament' => 'nullable|date_format:H:i',
-            'telefono' => 'nullable|integer',
+            'telefono' => 'nullable|digits:9',
             'coreoelectronic' => 'nullable|email|max:255',
             'web' => 'nullable|url|max:255',
             'imatge' => 'nullable|string|max:255',
@@ -140,6 +149,23 @@ class BotigaController extends Controller
         auth()->user()->favoritos()->detach($botiga->id);
         return back()->with('success', 'Eliminada dels favorits!');
     }
+    public function guardarRessenya(Request $request, $botiga_id)
+    {
+        $request->validate([
+            'comentari' => 'required|string',
+            'valoracio' => 'required|integer|min:1|max:5',
+        ]);
 
+        Ressenya::create([
+            'botiga_id' => $botiga_id,
+            'user_id' => auth()->id(),
+            'usuari' => auth()->user()->name,
+            'comentari' => $request->comentari,
+            'valoracio' => $request->valoracio,
+            'dataPublicacio' => now(),
+        ]);
+
+        return back()->with('success', 'Ressenya enviada correctament!');
+    }
 
 }

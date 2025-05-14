@@ -39,6 +39,7 @@
             .bg-secondary-variant-7 { background-color: #20063F !important; }
     
             .bg-info-variant-1 { background-color: #E9F2FC !important; }
+            .bg-info-variant-1-5 { background-color:rgb(220, 239, 255) !important; }
             .bg-info-variant-2 { background-color: #ADD2F5 !important; }
             .bg-info-variant-3 { background-color: #55AFEB !important; }
             .bg-info-variant-4 { background-color: #4188B8 !important; }

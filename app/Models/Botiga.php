@@ -8,7 +8,12 @@ class Botiga extends Model
 {
     protected $table = 'botigues'; // Tabla en plural (por defecto Laravel esperaría "botigas")
     protected $fillable = ['nom', 'descripcio', 'adreca', 'latitud', 'longitud','horariObertura','horariTencament','telefono','coreoelectronic','web','imatge'];
-    
+
+    public function ressenyes()
+    {
+        return $this->hasMany(Ressenya::class);
+    }
+
 
 
 
