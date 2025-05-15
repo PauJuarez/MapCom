@@ -13,9 +13,11 @@ class Botiga extends Model
     {
         return $this->hasMany(Ressenya::class);
     }
-
-
-
+    public function caracteristiques()
+    {
+        return $this->belongsToMany(Caracteristica::class, 'botiga_caracteristica', 'botiga_id', 'caracteristica_id');
+        // 'botiga_caracteristica' es la tabla pivote que une ambas tablas
+    }
 
 
 }

@@ -10,8 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 bg-primary-variant-1">
 
                 <form method="POST" action="{{ route('botigues.store') }}">
-                    @csrf
-
+                @csrf
                     <div class="mb-4">
                         <label for="nom"
                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Nom') }}</label>
@@ -54,7 +53,28 @@
                             </div>
                          </div>
                     </div>
-
+                <div class="form-group">
+                    <label for="caracteristiques" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Característiques:</label><br>
+                    <div class="row mb-4 max-w-4xl mx-auto sm:px-6 lg:px-8">
+                        @foreach($caracteristiques as $caracteristica)
+                            <div class="col-md-4">
+                                <div class="form-check block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    <input
+                                        type="checkbox"
+                                        name="caracteristiques[]"
+                                        value="{{ $caracteristica->id }}"
+                                        class="form-check-input "
+                                        id="caracteristica{{ $caracteristica->id }}"
+                                    >
+                                    <label class="form-check-label" for="caracteristica{{ $caracteristica->id }}">
+                                        {{ $caracteristica->nom }}
+                                    </label>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </form>
                     <div class="flex justify-end mt-6">
                         <button type="submit" class="btn btn-primary">
                             {{ __('Guardar Botiga') }}
@@ -65,38 +85,30 @@
             </div>
         </div>
     </div>
+</x-app-layout>
 <script>
     const mapDiv = document.getElementById('map');
-    const mapContainer = document.getElementById('mapContainer');
     const latitudInput = document.getElementById('latitud');
     const longitudInput = document.getElementById('longitud');
-
 
     let map;
     let marker;
 
-
     function initMap() {
+        // Centro por defecto (Catalunya)
         const catalunyaCenter = [41.6663, 1.8597];
-        map = L.map('map', {
-            center: catalunyaCenter,
-            zoom: 15.2,
-            renderer: L.canvas()
-        });
+
+        map = L.map('map').setView(catalunyaCenter, 15);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            tileSize: 256,
-            zoomOffset: 0,
-            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright ">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        marker = L.marker([0, 0]).addTo(map);
-        marker.setLatLng([catalunyaCenter[0], catalunyaCenter[1]]);
-        marker.setStyle({ display: 'none' });
-        map.invalidateSize();
+        // Marcador inicial
+        marker = L.marker(catalunyaCenter).addTo(map);
+        marker.bindPopup("Selecciona una ubicació fent clic al mapa").openPopup();
 
-        // Si hay valores de latitud y longitud iniciales, mostrar el marcador
+        // Si hay valores previos, centrar el mapa
         if (latitudInput.value && longitudInput.value) {
             const lat = parseFloat(latitudInput.value);
             const lng = parseFloat(longitudInput.value);
@@ -104,32 +116,42 @@
                 const initialLatLng = [lat, lng];
                 map.setView(initialLatLng, 15);
                 marker.setLatLng(initialLatLng);
-                marker.setStyle({ display: 'block' });
+                marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6));
             }
         }
+
+        // Capturar clic en el mapa
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+
+            // Actualizar inputs
+            latitudInput.value = lat.toFixed(6);
+            longitudInput.value = lng.toFixed(6);
+
+            // Mover marcador
+            marker.setLatLng([lat, lng]).addTo(map);
+            marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
+        });
     }
 
-    function updateMap() {
+    function updateMarkerFromInputs() {
         const lat = parseFloat(latitudInput.value);
         const lng = parseFloat(longitudInput.value);
 
         if (!isNaN(lat) && !isNaN(lng)) {
             const newLatLng = [lat, lng];
-            map.setView(newLatLng, 15);
-            marker.setLatLng(newLatLng);
-            marker.setStyle({ display: 'block' });
-        } else {
-            marker.setStyle({ display: 'none' });
+            map.setView(newLatLng, 15); // Centrar mapa
+            marker.setLatLng(newLatLng).addTo(map); // Mover marcador
+            marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
         }
     }
 
-
-
-    latitudInput.addEventListener('input', updateMap);
-    longitudInput.addEventListener('input', updateMap);
+    // Escuchar cambios manuales en los inputs
+    latitudInput.addEventListener('input', updateMarkerFromInputs);
+    longitudInput.addEventListener('input', updateMarkerFromInputs);
 
     window.onload = function () {
         initMap();
     };
 </script>
-</x-app-layout>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Botiga;
 use App\Models\User;
 use App\Models\Ressenya;
+use App\Models\Caracteristica;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -14,10 +15,27 @@ use Illuminate\Support\Facades\Gate;
 class BotigaController extends Controller
 {
     // Muestra una lista de productos, por ejemplo
-    public function index()
+    public function index(Request $request)
     {
-        $botigues = Botiga::latest()->paginate(3);
-        return view('botiga.index', compact('botigues')); // Asegúrate de que esta vista exista
+        $caracteristiques = Caracteristica::all();
+
+        $query = Botiga::query();
+
+        // Multifiltro AND: solo si vienen parámetros
+        if ($filtroIds = $request->input('caracteristiques')) {
+            $filtroIds = array_filter($filtroIds); // limpiar valores vacíos
+
+            if (!empty($filtroIds)) {
+                // Asegurarse de que tenga TODAS las características seleccionadas
+                $query->whereHas('caracteristiques', function ($q) use ($filtroIds) {
+                    $q->whereIn('caracteristiques.id', $filtroIds);
+                }, '=', count($filtroIds));
+            }
+        }
+
+        $botigues = $query->latest()->paginate(3);
+
+        return view('botiga.index', compact('botigues', 'caracteristiques'));
     }
     
     public function mapa(): View
@@ -45,7 +63,8 @@ class BotigaController extends Controller
     public function create()
     {
         if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
-            return view('botiga.crearb');
+        $caracteristiques = Caracteristica::all(); // Cargar características
+        return view('botiga.crearb', compact('caracteristiques')); // Pasarlas a la vista
         }
         abort(403, 'Unauthorized!');
     }
@@ -93,27 +112,36 @@ class BotigaController extends Controller
         }
         
 
+
         public function store(Request $request)
         {
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'descripcio' => 'nullable|string',
-            'adreca' => 'nullable|string|max:255',
-            'latitud' => 'nullable|numeric',
-            'longitud' => 'nullable|numeric',
-            'horariObertura' => 'nullable|date_format:H:i',
-            'horariTencament' => 'nullable|date_format:H:i',
-            'telefono' => 'nullable|digits:9',
-            'coreoelectronic' => 'nullable|email|max:255',
-            'web' => 'nullable|url|max:255',
-            'imatge' => 'nullable|string|max:255',
-        ]);
+            $validated = $request->validate([
+                'nom' => 'required|string|max:255',
+                'descripcio' => 'nullable|string',
+                'adreca' => 'nullable|string|max:255',
+                'latitud' => 'nullable|numeric',
+                'longitud' => 'nullable|numeric',
+                'horariObertura' => 'nullable|date_format:H:i',
+                'horariTencament' => 'nullable|date_format:H:i',
+                'telefono' => 'nullable|digits:9',
+                'coreoelectronic' => 'nullable|email|max:255',
+                'web' => 'nullable|url|max:255',
+                'imatge' => 'nullable|string|max:255',
+                'caracteristiques' => 'nullable|array', // validar que sea array
+                'caracteristiques.*' => 'exists:caracteristiques,id', // validar ids existentes
+            ]);
 
-        
-            Botiga::create($validated);
-        
+            $botiga = Botiga::create($validated);
+
+            // Guardar las características seleccionadas (si hay)
+            if ($request->has('caracteristiques')) {
+                $botiga->caracteristiques()->sync($request->input('caracteristiques'));
+            }
+
             return redirect()->route('botigues.index')->with('success', 'Botiga creada correctament.');
         }
+
+
             // Método para eliminar una botiga
     public function destroy($id)
     {
@@ -168,4 +196,6 @@ class BotigaController extends Controller
         return back()->with('success', 'Ressenya enviada correctament!');
     }
 
+
+    
 }

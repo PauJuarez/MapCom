@@ -161,114 +161,105 @@
         </div>
     </div>
 
-    <script>
-        const imageInput = document.getElementById('imatge');
-        const imagePreview = document.getElementById('imagePreview');
-        const mapDiv = document.getElementById('map');
-        const imageDisplay = document.getElementById('imageDisplay');
-        const mapContainer = document.getElementById('mapContainer');
-        const telefonoInput = document.getElementById('telefono');
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet @1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet @1.9.4/dist/leaflet.js"></script>
 
+<!-- Tu script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const imageInput = document.getElementById('imatge');
+    const imagePreview = document.getElementById('imagePreview');
+    const mapDiv = document.getElementById('map');
+    const imageDisplay = document.getElementById('imageDisplay');
+    const telefonoInput = document.getElementById('telefono');
+    const latitudInput = document.getElementById('latitud');
+    const longitudInput = document.getElementById('longitud');
 
-        let map;
-        let marker;
-        const latitudInput = document.getElementById('latitud');
-        const longitudInput = document.getElementById('longitud');
+    let map;
+    let marker;
 
-        function initMap() {
-            const catalunyaCenter = [41.6663, 1.8597];
-            map = L.map('map', {
-                center: catalunyaCenter,
-                zoom: 15.2,
-                renderer: L.canvas()
-            });
+    function initMap() {
+        const catalunyaCenter = [41.6663, 1.8597];
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                tileSize: 256,
-                zoomOffset: 0,
-                maxZoom: 19,
-            }).addTo(map);
+        map = L.map('map').setView(catalunyaCenter, 15);
 
-            marker = L.marker([0, 0]).addTo(map);
-            marker.setLatLng([catalunyaCenter[0], catalunyaCenter[1]]);
-            marker.setStyle({ display: 'none' });
-            map.invalidateSize();
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright ">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-            // Si hay valores de latitud y longitud iniciales, mostrar el marcador
-            if (latitudInput.value && longitudInput.value) {
-                const lat = parseFloat(latitudInput.value);
-                const lng = parseFloat(longitudInput.value);
-                if (!isNaN(lat) && !isNaN(lng)) {
-                    const initialLatLng = [lat, lng];
-                    map.setView(initialLatLng, 15);
-                    marker.setLatLng(initialLatLng);
-                    marker.setStyle({ display: 'block' });
-                }
-            }
-        }
+        marker = L.marker(catalunyaCenter).addTo(map);
+        marker.bindPopup("Selecciona una ubicació fent clic al mapa").openPopup();
 
-        function updateMap() {
+        if (latitudInput && longitudInput && latitudInput.value && longitudInput.value) {
             const lat = parseFloat(latitudInput.value);
             const lng = parseFloat(longitudInput.value);
-
             if (!isNaN(lat) && !isNaN(lng)) {
-                const newLatLng = [lat, lng];
-                map.setView(newLatLng, 15);
-                marker.setLatLng(newLatLng);
-                marker.setStyle({ display: 'block' });
-            } else {
-                marker.setStyle({ display: 'none' });
+                const initialLatLng = [lat, lng];
+                map.setView(initialLatLng, 15);
+                marker.setLatLng(initialLatLng);
+                marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6));
             }
         }
 
-        function toggleImageVisibility(imageUrl) {
-            if (imageUrl) {
-                imagePreview.src = imageUrl;
-                imageDisplay.style.display = 'flex';
-                imageDisplay.style.marginLeft = '20px'; // Añadimos un margen izquierdo
-                mapDiv.style.marginRight = '20px';
-            } else {
-                imageDisplay.style.display = 'none';
-                imageDisplay.style.marginLeft = '0px'; // Reseteamos el margen
-                mapDiv.style.marginRight = '0px';
-                imagePreview.src = '#';
-            }
-        }
-
-        function formatPhoneNumber(input) {
-            // Eliminar caracteres no numéricos
-            let numbers = input.value.replace(/\D/g, '');
-
-            // Formatear el número
-            let formattedNumber = '';
-            if (numbers.startsWith('34')) {
-                formattedNumber = '+' + numbers.substring(0, 2) + ' ' + numbers.substring(2);
-            } else {
-                formattedNumber = numbers;
-            }
-            input.value = formattedNumber;
-        }
-
-        // Agregar un listener para formatear el número mientras se escribe
-        telefonoInput.addEventListener('input', function() {
-            formatPhoneNumber(this);
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+            latitudInput.value = lat.toFixed(6);
+            longitudInput.value = lng.toFixed(6);
+            marker.setLatLng([lat, lng]);
+            marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
         });
+    }
 
-        imageInput.addEventListener('input', function () {
-            toggleImageVisibility(this.value);
-        });
+    function updateMap() {
+        const lat = parseFloat(latitudInput?.value);
+        const lng = parseFloat(longitudInput?.value);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            const newLatLng = [lat, lng];
+            map.setView(newLatLng, 15);
+            marker.setLatLng(newLatLng);
+        }
+    }
 
-        latitudInput.addEventListener('input', updateMap);
-        longitudInput.addEventListener('input', updateMap);
+    function toggleImageVisibility(imageUrl) {
+        if (imageUrl) {
+            imagePreview.src = imageUrl;
+            imageDisplay.style.display = 'flex';
+        } else {
+            imageDisplay.style.display = 'none';
+            imagePreview.src = '#';
+        }
+    }
 
-        window.onload = function () {
-            initMap();
-            toggleImageVisibility(imageInput.value); // Llamamos a la función para mostrar la imagen si ya hay una URL
-            const telefonoValue = "{{ old('telefono', $botiga->telefono) }}";
-            if (telefonoValue) {
-                document.getElementById('phoneNumberDisplay').innerHTML = `<a href="tel:${telefonoValue.replace(/\s/g, '')}">${telefonoValue}</a>`;
-            }
-        };
-    </script>
+    function formatPhoneNumber(input) {
+        let numbers = input.value.replace(/\D/g, '');
+        let formattedNumber = numbers;
+        if (numbers.startsWith('34') && numbers.length === 11) {
+            formattedNumber = '+' + numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5, 8) + ' ' + numbers.substring(8);
+        }
+        input.value = formattedNumber;
+    }
+
+    telefonoInput?.addEventListener('input', function() {
+        formatPhoneNumber(this);
+    });
+
+    imageInput?.addEventListener('input', function () {
+        toggleImageVisibility(this.value);
+    });
+
+    latitudInput?.addEventListener('input', updateMap);
+    longitudInput?.addEventListener('input', updateMap);
+
+    window.onload = function () {
+        initMap();
+        toggleImageVisibility(imageInput?.value);
+        const telefonoValue = "{{ old('telefono', $botiga->telefono) }}";
+        if (telefonoValue) {
+            document.getElementById('phoneNumberDisplay').innerHTML = `<a href="tel:${telefonoValue.replace(/\s/g, '')}">${telefonoValue}</a>`;
+        }
+    };
+});
+</script>
 </x-app-layout>
