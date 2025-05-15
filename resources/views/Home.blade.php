@@ -8,6 +8,30 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
+                <!-- Filtro dinámico por características -->
+<form id="filterForm" method="GET" action="{{ route('Home') }}" class="mb-6">
+    <div class="flex flex-col">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filtrar per característiques</label>
+
+        <!-- Botones toggle -->
+        <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
+            @foreach($caracteristiques as $carac)
+                @php
+                    $isSelected = is_array(request('caracteristiques')) && in_array($carac->id, request('caracteristiques'));
+                @endphp
+                <button type="button"
+                        data-id="{{ $carac->id }}"
+                        class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
+                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500' }}">
+                    {{ $carac->nom }}
+                </button>
+            @endforeach
+        </div>
+
+        <!-- Input oculto para IDs seleccionadas -->
+        <input type="hidden" name="caracteristiques[]" id="selectedCaracteristiques" value="{{ request('caracteristiques') ? implode(',', request('caracteristiques')) : '' }}">
+    </div>
+</form>
                 @if($botigues->isEmpty())
                     <p class="text-gray-600 dark:text-gray-300">No tens botigues favorites.</p>
                 @else
@@ -68,8 +92,20 @@
                 @endif
 
                 <!-- Paginación -->
-                <div class="mt-6">
-                    <div class="flex justify-end">
+                <div class="mt-6 flex justify-between items-center">
+                    <div>
+                        <form action="{{ route('Home') }}" method="GET" class="flex items-center">
+                            <label for="per_page" class="mr-2">Mostrar:</label>
+                            <select name="per_page" id="per_page" class="border rounded py-1 px-4">
+                                <option value="3" {{ request('per_page', 3) == 3 ? 'selected' : '' }}>3</option>
+                                <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
+                                <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div>
                         {{ $botigues->links('pagination::tailwind') }}
                     </div>
                 </div>
@@ -77,3 +113,51 @@
         </div>
     </div>
 </x-app-layout>
+    <script>
+        document.getElementById('per_page').addEventListener('change', function() {
+            this.form.submit();
+        });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.caracteristica-btn');
+        const hiddenInput = document.getElementById('selectedCaracteristiques');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                let selected = [...hiddenInput.value.split(',')];
+
+                // Limpiar valores vacíos
+                selected = selected.filter(Boolean);
+
+                // Toggle ID
+                const index = selected.indexOf(id);
+                if (index === -1) {
+                    selected.push(id); // Añadir
+                } else {
+                    selected.splice(index, 1); // Quitar
+                }
+
+                // Actualizar input oculto
+                hiddenInput.value = selected.join(',');
+
+                // Actualizar estilo del botón
+                if (index === -1) {
+                    this.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                    this.classList.add('bg-blue-600', 'text-white');
+                } else {
+                    this.classList.remove('bg-blue-600', 'text-white');
+                    this.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                }
+
+                // Construir URL con parámetros correctos
+                const params = new URLSearchParams();
+                selected.forEach(id => params.append('caracteristiques[]', id));
+
+                // Redirigir
+                window.location.href = "{{ route('Home') }}?" + params.toString();
+            });
+        });
+    });
+</script>

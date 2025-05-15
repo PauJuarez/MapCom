@@ -10,16 +10,9 @@ Route::get('/', function () {
 
 
 
-Route::get('/Home', function () {
-    // Obtener el usuario autenticado
-    $user = auth()->user();
-
-    // Obtener las tiendas favoritas paginadas
-    $botigues = $user ? $user->favoritos()->paginate(3) : collect();
-
-    // Pasar las tiendas favoritas paginadas a la vista
-    return view('Home', compact('botigues'));
-})->middleware(['auth', 'verified'])->name('Home');
+Route::get('/Home', [BotigaController::class, 'home'])
+    ->middleware(['auth', 'verified'])
+    ->name('Home');
 
 Route::prefix('botigues')->middleware('auth')->group(function () {
     Route::resource('/', BotigaController::class);  // Esto crea todas las rutas CRUD para botigues

@@ -139,7 +139,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <div id="mapContainer" class="d-flex" style="height: 300px; margin-top: 10px;">
+                            <div id="mapContainer" class="d-flex" style="height: 300px; margin-top: 10px; gap: 20px;">
                                 <div id="map" style="width: 50%; height: 100%;"></div>
                                 <div id="imageDisplay" style="width: 50%; height: 100%; display: none;">
                                     <img id="imagePreview" src="#" alt="Vista previa de la imatge" style="max-width: 100%; max-height: 100%; border-radius: 5px;">
@@ -148,6 +148,36 @@
                         </div>
                     </div>
 
+
+
+<div class="mb-6">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Característiques:</label>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        @foreach ($caracteristiques as $caracteristica)
+            <div class="flex items-center space-x-2">
+                <input
+                    type="checkbox"
+                    name="caracteristiques[]"
+                    value="{{ $caracteristica->id }}"
+                    id="caracteristica_{{ $caracteristica->id }}"
+                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    @if (is_array(old('caracteristiques')) && in_array($caracteristica->id, old('caracteristiques')))
+                        checked
+                    @elseif (isset($botiga) && $botiga->caracteristiques->contains($caracteristica->id))
+                        checked
+                    @endif
+                >
+                <label for="caracteristica_{{ $caracteristica->id }}" class="text-sm text-gray-700 dark:text-gray-300">
+                    {{ $caracteristica->nom }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>
+
+
+                    
                     <div class="flex items-center justify-between mt-6">
                         <a href="{{ route('botigues.index') }}" class="btn btn-secondary">
                             {{ __('Volver') }}

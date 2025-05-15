@@ -38,13 +38,29 @@
                 @endif
 
                 <!-- Paginación -->
-                <div class="mt-6">
-                    <div class="flex justify-end">
+                <div class="mt-6 flex justify-between items-center">
+                    <div>
+                        <form action="{{ route('botigues.users') }}" method="GET" class="flex items-center">
+                            <label for="per_page" class="mr-2">Mostrar:</label>
+                            <select name="per_page" id="per_page" class="border rounded py-1 px-4">
+                                <option value="3" {{ request('per_page', 3) == 3 ? 'selected' : '' }}>3</option>
+                                <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
+                                <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div>
                         {{ $users->links('pagination::tailwind') }}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </x-app-layout>
+    <script>
+        document.getElementById('per_page').addEventListener('change', function() {
+            this.form.submit();
+        });
+    </script>
