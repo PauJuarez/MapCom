@@ -121,10 +121,17 @@
                                 <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
                                 <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
                             </select>
+
+                            {{-- Preservar filtros actuales --}}
+                            @if(request()->has('caracteristiques'))
+                                @foreach(request('caracteristiques') as $id)
+                                    <input type="hidden" name="caracteristiques[]" value="{{ $id }}">
+                                @endforeach
+                            @endif
                         </form>
                     </div>
                     <div>
-                        {{ $botigues->links('pagination::tailwind') }}
+                        {{ $botigues->appends(request()->all())->links('pagination::tailwind') }}
                     </div>
                 </div>
             </div>
@@ -174,8 +181,14 @@
                 selected.forEach(id => params.append('caracteristiques[]', id));
 
                 // Redirigir
-                window.location.href = "{{ route('botigues.index') }}?" + params.toString();
-            });
+                // Añadir per_page actual si existe en la URL
+                const perPage = new URLSearchParams(window.location.search).get('per_page');
+                if (perPage) {
+                    params.set('per_page', perPage);
+                }
+
+                // Redirigir
+                window.location.href = "{{ route('botigues.index') }}?" + params.toString();            });
         });
     });
 </script>

@@ -42,7 +42,7 @@ public function home(Request $request)
 
     // Paginación
     $number = $request->input('per_page', 3); // Número de resultados por página
-    $botigues = $query->latest()->paginate($number);
+    $botigues = $query->latest()->paginate($number)->appends($request->all());
 
     // Cargar todas las características para mostrar el filtro
     $caracteristiques = Caracteristica::all();
@@ -67,7 +67,7 @@ public function home(Request $request)
         }
 
         $number = $request->input('per_page', 3);
-        $botigues = $query->latest()->paginate($number); // ✅ Usar $query aquí
+        $botigues = $query->latest()->paginate($number)->appends($request->all());
 
         return view('botiga.index', compact('botigues', 'caracteristiques'));
     }
