@@ -83,11 +83,6 @@
                                        value="{{ old('telefono', $botiga->telefono) }}"
                                        class="form-control mt-1 rounded-md dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                                        placeholder="Ej: +34 123 456 789">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-phone"></i>
-                                    </span>
-                                </div>
                             </div>
                             <small class="form-text text-muted">Formato: +34 Código País Número</small>
                             <div id="phoneDisplayArea" style="margin-top: 10px;">

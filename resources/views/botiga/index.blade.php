@@ -41,7 +41,7 @@
                             <li class="relative py-6 px-4 bg-info-variant-1 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
                                 <!-- Botones arriba a la derecha -->
                                 <div class="absolute top-2 right-2 flex space-x-2">
-                                    @if(Gate::allows('access-admin') || Gate::allows('access-editor'))
+                                    @if(Gate::allows('access-admin') || Gate::allows('edit-botiga', $botiga))
                                         <a href="{{ route('editone', ['id' => $botiga->id]) }}"
                                         class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow transition duration-200"
                                         title="Editar">

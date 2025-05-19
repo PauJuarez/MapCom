@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+use App\Models\Botiga; 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::define('access-editor', function ($user) {
             return $user->role === 'editor';
+        });
+        
+        Gate::define('edit-botiga', function ($user, Botiga $botiga) {
+            return $user->role === 'editor' && $user->id === $botiga->user_id;
         });
     }
 }

@@ -115,8 +115,8 @@ public function home(Request $request)
 
     public function editone($id)
     {
-        if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
-            $botiga = Botiga::findOrFail($id);
+        $botiga = Botiga::findOrFail($id);
+        if (Gate::allows('access-admin') || Gate::allows('edit-botiga', $botiga)) {
             $caracteristiques = Caracteristica::all(); // Cargar características
             return view('botiga.editone', compact('botiga', 'caracteristiques'));
         }
@@ -171,7 +171,10 @@ public function update(Request $request, $id)
                 'imatge' => 'nullable|string|max:255',
                 'caracteristiques' => 'nullable|array', // validar que sea array
                 'caracteristiques.*' => 'exists:caracteristiques,id', // validar ids existentes
+
             ]);
+
+            $validated['user_id'] = auth()->id();
 
             $botiga = Botiga::create($validated);
 
@@ -187,8 +190,8 @@ public function update(Request $request, $id)
             // Método para eliminar una botiga
     public function destroy($id)
     {
-        if (Gate::allows('access-admin') || Gate::allows('access-editor')) {
-            $botiga = Botiga::findOrFail($id);
+        $botiga = Botiga::findOrFail($id);
+        if (Gate::allows('access-admin') || Gate::allows('edit-botiga', $botiga)) {
             $botiga->delete();
             return redirect()->route('botigues.index')->with('success', 'Botiga eliminada correctamente.');
         }
