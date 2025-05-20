@@ -32,19 +32,19 @@
             <div class="card mi-fondo-carta">
                 <div class="card-body">
                     <x-auth-session-status class="mb-4 alert alert-success" :status="session('status')" />
-                        <h1 style="font-weight: bold; font-size: 2.2em; color: blue; text-align: center; line-height: 100px;">Login</h1>
+                        <h1 style="font-weight: bold; font-size: 2.2em; color: blue; text-align: center; line-height: 100px;">Iniciar sessió</h1>
                         <br style="line-height: 100px;">
                         
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
                             <div class="mb-3">
-                                <x-input-label for="email" :value="__('Email')" class="form-label mi-color-principal" />
+                                <x-input-label for="email" :value="__('Correu electrònic')" class="form-label mi-color-principal" />
                                 <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
                                 <x-input-error :messages="$errors->get('email')" class="mt-2 alert alert-danger" />
                             </div>
                             <div class="mb-3">
-                                <x-input-label for="password" :value="__('Password')" class="form-label mi-color-principal" />
+                                <x-input-label for="password" :value="__('Contrasenya')" class="form-label mi-color-principal" />
                                 <x-text-input id="password" class="form-control"
                                                 type="password"
                                                 name="password"
@@ -54,16 +54,18 @@
 
                             <div class="mb-3 form-check mi-color-principal">
                                 <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-                                <label class="form-check-label" for="remember_me">{{ __('Remember me') }}</label>
+                                <label class="form-check-label" for="remember_me">{{ __('Recorda’m') }}</label>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between mt-4">
-                                @if (Route::has('password.request'))
+                            <div class="d-flex align-items-center justify-content-end mt-4">
+                                {{-- @if (Route::has('password.request'))
                                     <a style="font-size: 0.83em;"class="btn btn-link mi-color-principal" href="{{ route('password.request') }}">
                                         {{ __('Forgot your password?') }}
                                     </a>
-                                @endif
-                                <button onclick="window.history.back()" class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #ADD2F5; color: black;">Back</button>
+                                @endif --}}
+                                <button onclick="window.history.back()" class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #ADD2F5; color: black; border: none;">
+                                    Back
+                                </button>                                
                                 <x-primary-button class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #5564eb; border: none;">
                                     {{ __('Login') }}
                                 </x-primary-button>
