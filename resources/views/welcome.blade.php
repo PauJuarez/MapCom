@@ -55,15 +55,15 @@
         <img src="{{ asset('img/Logo.png') }}" alt="Logo" width="350" height="350" class="w-24 lg:w-32 mb-6" />
         <div  class="flex flex-col items-center justify-center w-full lg:max-w-4xl max-w-[335px]">
             <h1 style="color: #050c3b"class="text-3xl lg:text-5xl font-bold text-center mb-6 dark:text-[#EDEDEC] text-[#1b1b18]">
-                Bienvenido a MapCom
+                Us donem la benvinguda a MapCom
             </h1>
             <p style="color: #050c3b" class="text-sm lg:text-base text-center mb-6 dark:text-[#EDEDEC] text-[#1b1b18]">
-                MapCom es un marco de Ubicaciones i locales en una web. Ya hemos configurado un
-                entorno de desarrollo con Laravel Sail. Puedes comenar a desarrollar tu tienda online al inicaiar sesion.
+                MapCom és una plataforma per localitzar establiments en línia. L'entorn de desenvolupament amb
+                Laravel Sail ja està configurat. Puja la teva botiga a la nostra pàgina i comença a créixer.
             </p>
             <div style="color: #050c3b" class="bg-[#FDFDFC] dark:bg-[#0a0a0a] border border-[#19140035] dark:border-[#3E3E3A] rounded-sm p-4 mb-6">
                 <code class="text-sm text-[#1b1b18] dark:text-[#EDEDEC]">
-                    Gracias por confiar en nosotros
+                    Gràcies per confiar en nosaltres
                 </code>
             </div>
 

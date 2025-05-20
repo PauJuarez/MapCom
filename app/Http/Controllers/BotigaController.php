@@ -73,12 +73,30 @@ public function home(Request $request)
     }
 
     
-    public function mapa(): View
-    {
-        $botigues = Botiga::all();
-        
-        return view('botiga.mapa', compact('botigues'));
+public function mapa(Request $request): View
+{
+    $caracteristiques = Caracteristica::all();
+
+    // Crear consulta base
+    $query = Botiga::query();
+
+    // Aplicar filtro si hay características seleccionadas
+    if ($filtroIds = $request->input('caracteristiques')) {
+        $filtroIds = array_filter($filtroIds); // limpiar valores vacíos
+
+        if (!empty($filtroIds)) {
+            $query->whereHas('caracteristiques', function ($q) use ($filtroIds) {
+                $q->whereIn('caracteristiques.id', $filtroIds);
+            }, '=', count($filtroIds));
+        }
     }
+
+    $botigues = $query->get();
+
+    // Pasar las variables necesarias a la vista
+    return view('botiga.mapa', compact('botigues', 'caracteristiques'));
+}
+
 
     public function show($id):view
     {
