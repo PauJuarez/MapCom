@@ -64,10 +64,10 @@
                                     </a>
                                 @endif --}}
                                 <button onclick="window.history.back()" class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #ADD2F5; color: black; border: none;">
-                                    Back
+                                    Enrere
                                 </button>                                
                                 <x-primary-button class="btn btn-primary ms-3 mi-boton-principal" style="background-color: #5564eb; border: none;">
-                                    {{ __('Login') }}
+                                    {{ __('Iniciar sessió') }}
                                 </x-primary-button>
                             </div>
                         </form>

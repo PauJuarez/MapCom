@@ -82,7 +82,7 @@
 
                             <div class="d-flex gap-3">
                                 <button type="button" onclick="window.history.back()" class="btn mi-boton-registro" style="background-color: #CCB9F7; color: purple; border: 1px solid purple; border-radius: 0.375rem; padding: 0.5rem 1.25rem; font-weight: 600; transition: background-color 0.3s, color 0.3s;">
-                                    Back
+                                    Enrere
                                 </button>
 
                                 <x-primary-button class="btn mi-boton-registro" style="padding: 0.5rem 1.25rem; border-radius: 0.375rem; font-weight: 600;">
