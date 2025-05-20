@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
-            {{ __('Mapa de Botigues a Catalunya') }}
+            {{ __('Mapa de Botigues a Sant Vicenç de Castellet') }}
         </h2>
     </x-slot>
 

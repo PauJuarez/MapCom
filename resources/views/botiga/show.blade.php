@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
-            {{ __('Detalls de la Botiga') }}
+            Detalls ( "{{ $botiga->nom }}" )
         </h2>
     </x-slot>
 
@@ -14,8 +14,25 @@
                     <!-- Mostrar el promedio de valoraciones y el total de reseñas aquí -->
                     <div class="mb-4">
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                            Promedio de valoraciones: <span class="font-bold text-blue-800">{{ number_format($promedioValoracion, 1) }} / 5  </span>
-                            Total de reseñas: <span class="font-bold text-blue-800">{{ $totalResenyas }}</span>
+                            Promedio de valoraciones: <span class="font-bold text-blue-800">{{ number_format($promedioValoracion, 1) }} / 5 </span>
+                            <div class="flex items-center mt-1"> @php
+                                    $promedio = number_format($promedioValoracion, 1);
+                                    $estrellasCompletas = floor($promedio);
+                                    $mediaEstrella = ($promedio - $estrellasCompletas >= 0.5) ? true : false;
+                                    $estrellasVacias = 5 - $estrellasCompletas - ($mediaEstrella ? 1 : 0);
+                                @endphp
+
+                                @for ($i = 0; $i < $estrellasCompletas; $i++)
+                                    <i class="fas fa-star text-yellow-400"></i> @endfor
+
+                                @if ($mediaEstrella)
+                                    <i class="fas fa-star-half-alt text-yellow-400"></i> @endif
+
+                                @for ($i = 0; $i < $estrellasVacias; $i++)
+                                    <i class="far fa-star text-gray-300 dark:text-gray-600"></i> @endfor
+
+                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">({{ $totalResenyas }} reseñas)</span>
+                            </div>
                         </p>
                     </div>
                     
@@ -37,14 +54,16 @@
                                 </div>
                             @endif
                         </div>
-                            <div class="flex flex-col w-96 break-words overflow-hidden">
-                                @if($botiga->descripcio)
-                                    <div class="mb-4">
-                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Descripció:</strong>
-                                        <p class="text-gray-700 dark:text-gray-300">{{ $botiga->descripcio }}</p>
-                                    </div>
-                                @endif
-                            </div>
+                        <div class="flex flex-col w-full sm:w-96 md:w-[30rem] break-words overflow-hidden pr-10">
+                            @if($botiga->descripcio)
+                                <div class="mb-4">
+                                    <strong class="text-info-variant-3 dark:text-info-variant-4">Descripció:</strong>
+                                    <p class="text-gray-700 dark:text-gray-300 text-justify">{{ $botiga->descripcio }}</p>
+                                </div>
+                            @endif
+                        </div>
+
+
                         </div>
                         <div>
                             <div>
