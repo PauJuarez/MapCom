@@ -12,6 +12,7 @@
                     <p class="text-gray-600 dark:text-gray-300">No hi ha usuaris registrats.</p>
                 @else
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700 space-y-6 relative">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($users as $user)
                             <li class="relative py-6 px-4 bg-[#e9f2fc] dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out">
                                 <div>
@@ -33,7 +34,7 @@
                                 </div>
                             </li>
                         @endforeach
-
+                        </div>
                     </ul>
                 @endif
 
@@ -43,11 +44,11 @@
                         <form action="{{ route('botigues.users') }}" method="GET" class="flex items-center">
                             <label for="per_page" class="mr-2">Mostrar:</label>
                             <select name="per_page" id="per_page" class="border rounded py-1 px-4">
-                                <option value="3" {{ request('per_page', 3) == 3 ? 'selected' : '' }}>3</option>
-                                <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
-                                <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
-                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
-                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                                <option value="4" {{ request('per_page', 4) == 4 ? 'selected' : '' }}>4</option>
+                                <option value="8" {{ request('per_page') == 8 ? 'selected' : '' }}>8</option>
+                                <option value="16" {{ request('per_page') == 16 ? 'selected' : '' }}>16</option>
+                                <option value="32" {{ request('per_page') == 32 ? 'selected' : '' }}>32</option>
+                                <option value="64" {{ request('per_page') == 64 ? 'selected' : '' }}>64</option>
                             </select>
                         </form>
                     </div>

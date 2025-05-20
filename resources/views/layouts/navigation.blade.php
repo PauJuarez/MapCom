@@ -40,7 +40,7 @@
         
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Perfil') }}
                         </x-dropdown-link>
         
                         <!-- Authentication -->
@@ -49,7 +49,7 @@
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                          this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Tanca la sessió') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -61,7 +61,7 @@
         <!-- Navigation Links (Vertical) -->
         <div class="hidden sm:flex flex-col space-y-4 sm:ms-10 ">
             <x-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
-                <span class="text-lg">{{ __('Home') }}</span>
+                <span class="text-lg">{{ __('Inici') }}</span>
             </x-nav-link>
             <x-nav-link :href="route('botigues.index')" :active="request()->routeIs('botigues.index')">
                 <span class="text-lg">{{ __('Botigues') }}</span>
@@ -77,7 +77,7 @@
             @if(Gate::allows('access-admin'))
 
                 <x-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
-                    <span class="text-lg">{{ __('Roles de usuarios') }}</span>
+                    <span class="text-lg">{{ __('Rols d\'Usuaris') }}</span>
                 </x-nav-link>
             @endif
         </div>
@@ -89,7 +89,7 @@
         :class="{'w-14': !open, 'w-64': open, 'max-w-full': open}">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('Home')" :active="request()->routeIs('Home')">
-                {{ __('Home') }}
+                {{ __('Inici') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('botigues.index')" :active="request()->routeIs('botigues.index')">
                 {{ __('Botigues') }}
@@ -97,9 +97,16 @@
             <x-responsive-nav-link :href="route('botigues.mapa')" :active="request()->routeIs('botigues.mapa')">
                 {{ __('Mapa') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
-                {{ __('Crear Botigues') }}
-            </x-responsive-nav-link>
+            @if(Gate::allows('access-admin') || Gate::allows('access-editor'))
+                <x-responsive-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
+                    {{ __('Crear Botigues') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Gate::allows('access-admin'))
+                <x-responsive-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
+                    {{ __('Rols d\'Usuaris') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- User Info -->
@@ -111,13 +118,13 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Perfil') }}
                 </x-responsive-nav-link>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault(); this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Tanca sessió') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

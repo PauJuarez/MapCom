@@ -106,7 +106,7 @@ public function home(Request $request)
 
     public function users(Request $request)
     {
-        $number = $request->input('per_page', 3); // Default 3
+        $number = $request->input('per_page', 4); // Default 3
         $users = User::paginate($number)->appends(['per_page' => $number]);
 
         return view('botiga.users', compact('users'));
