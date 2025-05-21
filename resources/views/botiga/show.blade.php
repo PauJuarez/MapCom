@@ -8,36 +8,48 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-info-variant-1-5 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
-                    <h3 class="text-3xl font-semibold text-primary-variant-5 dark:text-white mb-4">{{ $botiga->nom }}</h3>
+                <div class="p-0 bg-info-variant-1-5 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+                    <div class="mb-4 p-4" style="background-color:#55afeb;">
+                        <h3 class="text-3xl font-semibold text-primary-variant-5 dark:text-white flex items-center gap-2">
+                            {{ $botiga->nom }}
+                            <span class="text-lg font-normal text-gray-700 dark:text-gray-300">
+                                ({{ number_format($promedioValoracion, 1) }} de 5)
+                            </span>
+                        </h3>
 
-                    <!-- Mostrar el promedio de valoraciones y el total de reseñas aquí -->
-                    <div class="mb-4">
-                        <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                            Promedio de valoraciones: <span class="font-bold text-blue-800">{{ number_format($promedioValoracion, 1) }} / 5 </span>
-                            <div class="flex items-center mt-1"> @php
-                                    $promedio = number_format($promedioValoracion, 1);
-                                    $estrellasCompletas = floor($promedio);
-                                    $mediaEstrella = ($promedio - $estrellasCompletas >= 0.5) ? true : false;
-                                    $estrellasVacias = 5 - $estrellasCompletas - ($mediaEstrella ? 1 : 0);
-                                @endphp
+                        <div class="flex items-center mt-2 space-x-1">
+                            @php
+                                $promedio = number_format($promedioValoracion, 1);
+                                $estrellasCompletas = floor($promedio);
+                                $mediaEstrella = ($promedio - $estrellasCompletas >= 0.5);
+                                $estrellasVacias = 5 - $estrellasCompletas - ($mediaEstrella ? 1 : 0);
+                            @endphp
 
+                            {{-- Estrellas --}}
+                            <div class="flex items-center space-x-0.5">
                                 @for ($i = 0; $i < $estrellasCompletas; $i++)
-                                    <i class="fas fa-star text-yellow-400"></i> @endfor
+                                    <i class="fas fa-star text-yellow-400 text-lg"></i>
+                                @endfor
 
                                 @if ($mediaEstrella)
-                                    <i class="fas fa-star-half-alt text-yellow-400"></i> @endif
+                                    <i class="fas fa-star-half-alt text-yellow-400 text-lg"></i>
+                                @endif
 
                                 @for ($i = 0; $i < $estrellasVacias; $i++)
-                                    <i class="far fa-star text-gray-300 dark:text-gray-600"></i> @endfor
-
-                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">({{ $totalResenyas }} reseñas)</span>
+                                    <i class="far fa-star text-gray-300 dark:text-gray-600 text-lg"></i>
+                                @endfor
                             </div>
-                        </p>
+
+                            {{-- Total reseñas --}}
+                            <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                ({{ $totalResenyas }} reseñas)
+                            </span>
+                        </div>
                     </div>
-                    
+
+
                     <!-- Información de la tienda -->
-                    <div class="flex items-start justify-between">
+                    <div class="flex items-start justify-between p-6">
                         <div class="flex-1">
                             <div class="flex flex-col w-96 break-words overflow-hidden">
                                 <strong class="text-info-variant-3 dark:text-info-variant-4">Adreça:</strong>
@@ -91,67 +103,74 @@
                                     </div>
                                 @endif
                             </div>
+                            <div>
+                                @if($botiga->latitud && $botiga->longitud)
+                                    <div class="mb-4">
+                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Coordenades:</strong>
+                                        <p class="text-gray-700 dark:text-gray-300">  Lat: {{ number_format($botiga->latitud, 2) }}, Lon: {{ number_format($botiga->longitud, 2) }}</p>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
 
                     <!-- Información adicional -->
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                @if($botiga->latitud && $botiga->longitud)
+                                    <div class="mb-4">
+                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Mapa:</strong>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div id="map" style="height: 300px;"></div>
+                    </div>
+                    <div class="p-6">
+                        <!-- Mapa de la tienda -->
+                        @if($botiga->latitud && $botiga->longitud)
+                            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Coordenadas de la tienda
+                                    const latitud = {{ $botiga->latitud }};
+                                    const longitud = {{ $botiga->longitud }};
+                                    
+                                    // Crear el mapa
+                                    const map = L.map('map').setView([latitud, longitud], 15);
 
-                    <div class="flex items-start justify-between">
-                        <div>
-                            @if($botiga->latitud && $botiga->longitud)
-                                <div class="mb-4">
-                                    <strong class="text-info-variant-3 dark:text-info-variant-4">Coordenades:</strong>
-                                    <p class="text-gray-700 dark:text-gray-300">Latitud: {{ $botiga->latitud }}, Longitud: {{ $botiga->longitud }}</p>
-                                </div>
-                            @endif
+                                    // Capa base
+                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                        attribution: '&copy; OpenStreetMap contributors'
+                                    }).addTo(map);
+
+                                    // Icono personalizado para la tienda
+                                    const iconUrl = 'https://cdn-icons-png.flaticon.com/512/484/484167.png'; // Icono personalizado
+                                    const botigaIcon = L.icon({
+                                        iconUrl: iconUrl,
+                                        iconSize: [32, 32],
+                                        iconAnchor: [16, 32]
+                                    });
+
+                                    // Agregar marcador
+                                    L.marker([latitud, longitud], { icon: botigaIcon }).addTo(map)
+                                        .bindPopup(`
+                                            <strong>{{ $botiga->nom }}</strong><br>
+                                            {{ $botiga->adreca ?? 'Sense adreça' }}<br>
+                                            <em>{{ $botiga->descripcio ?? '' }}</em><br><br>
+                                        `);
+                                });
+                            </script>
+                        @endif
+
+                        <!-- Botón para volver a la lista -->
+                        <div class="mt-6">
+                            <a href="{{ route('botigues.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 dark:bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-500 focus:bg-gray-400 dark:focus:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                {{ __('Tornar a la llista') }}
+                            </a>
                         </div>
                     </div>
-                    <div id="map" style="height: 300px;"></div>
-
-
-                    <!-- Mapa de la tienda -->
-                    @if($botiga->latitud && $botiga->longitud)
-                        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                // Coordenadas de la tienda
-                                const latitud = {{ $botiga->latitud }};
-                                const longitud = {{ $botiga->longitud }};
-                                
-                                // Crear el mapa
-                                const map = L.map('map').setView([latitud, longitud], 15);
-
-                                // Capa base
-                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    attribution: '&copy; OpenStreetMap contributors'
-                                }).addTo(map);
-
-                                // Icono personalizado para la tienda
-                                const iconUrl = 'https://cdn-icons-png.flaticon.com/512/484/484167.png'; // Icono personalizado
-                                const botigaIcon = L.icon({
-                                    iconUrl: iconUrl,
-                                    iconSize: [32, 32],
-                                    iconAnchor: [16, 32]
-                                });
-
-                                // Agregar marcador
-                                L.marker([latitud, longitud], { icon: botigaIcon }).addTo(map)
-                                    .bindPopup(`
-                                        <strong>{{ $botiga->nom }}</strong><br>
-                                        {{ $botiga->adreca ?? 'Sense adreça' }}<br>
-                                        <em>{{ $botiga->descripcio ?? '' }}</em><br><br>
-                                    `);
-                            });
-                        </script>
-                    @endif
-
-                    <!-- Botón para volver a la lista -->
-                    <div class="mt-6">
-                        <a href="{{ route('botigues.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 dark:bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-500 focus:bg-gray-400 dark:focus:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                            {{ __('Tornar a la llista') }}
-                        </a>
-                    </div>
-
                 </div>
                 <div class="p-6 bg-info-variant-1-5 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
                     <div>

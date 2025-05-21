@@ -41,8 +41,15 @@
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700 space-y-6 relative ">
                         @foreach($botigues as $botiga)
                             <li class="relative py-6 px-4 bg-info-variant-1 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
+                                    <!-- Imagen encima solo en móvil -->
+                            <div class="mb-4 md:hidden">
+                                @if($botiga->imatge)
+                                    <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded w-full max-w-xs mx-auto object-cover">
+                                @endif
+                            </div>
                                 <div class="flex items-center justify-left">
-                                    <div class="flex-shrink-0 mr-4 pr-5 pl-5">
+
+                                    <div class="d-none d-md-block flex-shrink-0 pr-5">
                                         @if($botiga->imatge)
                                             <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded-md w-32 h-32 object-cover">
                                         @endif
