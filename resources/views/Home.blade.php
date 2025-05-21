@@ -9,47 +9,53 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
                 <!-- Filtro dinámico por características -->
-<form id="filterForm" method="GET" action="{{ route('Home') }}" class="mb-6">
-    <div class="flex flex-col">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Filtrar per característiques</label>
+                <form id="filterForm" method="GET" action="{{ route('Home') }}" class="mb-6">
+                    <div class="flex flex-col">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Filtrar per característiques</label>
 
-        <!-- Botones toggle -->
-        <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
-            @foreach($caracteristiques as $carac)
-                @php
-                    $isSelected = is_array(request('caracteristiques')) && in_array($carac->id, request('caracteristiques'));
-                @endphp
-                <button type="button"
-                        data-id="{{ $carac->id }}"
-                        class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
-                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
-                    {{ $carac->nom }}
-                </button>
-            @endforeach
-        </div>
+                        <!-- Botones toggle -->
+                        <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
+                            @foreach($caracteristiques as $carac)
+                                @php
+                                    $isSelected = is_array(request('caracteristiques')) && in_array($carac->id, request('caracteristiques'));
+                                @endphp
+                                <button type="button"
+                                        data-id="{{ $carac->id }}"
+                                        class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
+                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
+                                    {{ $carac->nom }}
+                                </button>
+                            @endforeach
+                        </div>
 
-        <!-- Input oculto para IDs seleccionadas -->
-        <input type="hidden" name="caracteristiques[]" id="selectedCaracteristiques" value="{{ request('caracteristiques') ? implode(',', request('caracteristiques')) : '' }}">
-    </div>
-</form>
+                        <!-- Input oculto para IDs seleccionadas -->
+                        <input type="hidden" name="caracteristiques[]" id="selectedCaracteristiques" value="{{ request('caracteristiques') ? implode(',', request('caracteristiques')) : '' }}">
+                    </div>
+                </form>
                 @if($botigues->isEmpty())
                     <p class="text-gray-600">No tens botigues favorites.</p>
                 @else
                     <ul class="divide-y divide-gray-200 space-y-6 relative">
                         @foreach($botigues as $botiga)
                             <li class="relative py-6 px-4 bg-info-variant-1 hover:bg-blue-100 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
-                            <div class="mb-4 md:hidden">
-                                @if($botiga->imatge)
-                                    <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded w-full max-w-xs mx-auto object-cover">
-                                @endif
-                            </div>
+                                    <!-- Imagen encima solo en móvil -->
+                                <div class="mb-4 md:hidden">
+                                    @if($botiga->imatge)
+                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded w-full max-w-xs mx-auto object-cover">
+                                    @else
+                                        <img src="/img/Logo.png" alt="Imatge per defecte" class="rounded w-full max-w-xs mx-auto object-cover">
+                                    @endif
+                                </div>
                                 <div class="flex items-center justify-left">
 
-                                    <div class="d-none d-md-block flex-shrink-0 pr-5 ">
+                                    <div class="d-none d-md-block flex-shrink-0 pr-5">
                                         @if($botiga->imatge)
                                             <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded-md w-32 h-32 object-cover">
+                                        @else
+                                            <img src="/img/Logo.png" alt="Imatge de la botiga" class="rounded-md w-32 h-32 object-cover">
                                         @endif
                                     </div>
+
                                     <!-- Botones arriba a la derecha -->
                                     <div class="absolute top-2 right-2 flex space-x-2">
                                         @if(Gate::allows('access-admin') || Gate::allows('edit-botiga', $botiga))
@@ -63,8 +69,7 @@
                                                 </svg>
                                             </a>
                                         @endif
-
-
+                                        
                                         @php
                                             $user = auth()->user();
                                             $esFavorita = $user && $user->favoritos && $user->favoritos->contains($botiga->id);
@@ -84,21 +89,28 @@
                                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.518 4.674a1 1 0 00.95.69h4.909c.969 0 1.371 1.24.588 1.81l-3.977 2.89a1 1 0 00-.364 1.118l1.518 4.674c.3.921-.755 1.688-1.54 1.118l-3.977-2.89a1 1 0 00-1.175 0l-3.977 2.89c-.784.57-1.838-.197-1.54-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.98 10.101c-.783-.57-.38-1.81.588-1.81h4.91a1 1 0 00.949-.69l1.518-4.674z" />
                                                 </svg>
                                             </button>
-                                        </form>
+                                        </form>                                 
                                     </div>
                         
                                     <!-- Contenido de la tienda -->
                                     <div>
                                         <h3 class="text-xl font-semibold text-gray-900">{{ $botiga->nom }}</h3>
                                         <p class="text-sm text-gray-700">{{ $botiga->adreca }}</p>
+
                                         @if($botiga->descripcio)
-                                            <p class="text-sm text-gray-500 mt-2">{{ $botiga->descripcio }}</p>
-                                            <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
-                                                <a href="{{ route('botiga.show', $botiga->id) }}">Veure Detalls</a>
-                                            </button>
+                                            <p class="text-sm text-gray-500 mt-2">
+                                                {{ Str::limit($botiga->descripcio, 250, '...') }}
+                                            </p>
+                                            <a href="{{ route('botiga.show', $botiga->id) }}">
+                                                <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+                                                    Veure Detalls
+                                                </button>
+                                            </a>
                                         @endif
                                     </div>
+
                                 </div>
+
                             </li>
                         @endforeach
                     </ul>
