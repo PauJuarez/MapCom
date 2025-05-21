@@ -66,9 +66,9 @@
     </head>
     
     <body class="font-sans antialiased bg-gray-variant-1">
-        <div class="min-h-screen flex flex-row bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen flex flex-row bg-gray-100">
             <!-- Sidebar or Navigation -->
-            <aside class="w-18 md:w-64 lg:w-80 xl:w-96 bg-white dark:bg-gray-800 shadow bg-primary-variant-2">
+            <aside class="w-18 md:w-64 lg:w-80 xl:w-96 bg-white shadow bg-primary-variant-2">
                 @include('layouts.navigation')
             </aside>
 
@@ -77,7 +77,7 @@
             <div class="flex-1 flex flex-col">
                 <!-- Page Heading -->
                 @isset($header)
-                    <header class="bg-white dark:bg-gray-800 shadow bg-primary-variant-5">
+                    <header class="bg-white shadow bg-primary-variant-5">
                         <div class="px-6 py-4">
                             {{ $header }}
                         </div>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
             {{ __('Mapa de Botigues a Sant Vicenç de Castellet') }}
         </h2>
     </x-slot>
@@ -11,12 +11,12 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
 
                 <!-- Filtro dinámico por características -->
                 <form id="filterForm" method="GET" action="{{ route('botigues.mapa') }}" class="mb-6">
                     <div class="flex flex-col">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label class="block text-sm font-medium text-gray-700">
                             Filtrar per característiques
                         </label>
 
@@ -29,7 +29,7 @@
                                 <button type="button"
                                         data-id="{{ $carac->id }}"
                                         class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
-                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500' }}">
+                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
                                     {{ $carac->nom }}
                                 </button>
                             @endforeach
@@ -101,12 +101,12 @@
                     const index = selected.indexOf(id);
                     if (index === -1) {
                         selected.push(id);
-                        this.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                        this.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
                         this.classList.add('bg-blue-600', 'text-white');
                     } else {
                         selected.splice(index, 1);
                         this.classList.remove('bg-blue-600', 'text-white');
-                        this.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                        this.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
                     }
 
                     hiddenInput.value = selected.join(',');

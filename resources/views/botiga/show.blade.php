@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
             Detalls ( "{{ $botiga->nom }}" )
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-0 bg-info-variant-1-5 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-0 bg-info-variant-1-5 border-b border-gray-200">
                     <div class="mb-4 p-4" style="background-color:#55afeb;">
-                        <h3 class="text-3xl font-semibold text-primary-variant-5 dark:text-white flex items-center gap-2">
+                        <h3 class="text-3xl font-semibold text-primary-variant-5 flex items-center gap-2">
                             {{ $botiga->nom }}
-                            <span class="text-lg font-normal text-gray-700 dark:text-gray-300">
+                            <span class="text-lg font-normal text-gray-700">
                                 ({{ number_format($promedioValoracion, 1) }} de 5)
                             </span>
                         </h3>
@@ -36,12 +36,12 @@
                                 @endif
 
                                 @for ($i = 0; $i < $estrellasVacias; $i++)
-                                    <i class="far fa-star text-gray-300 dark:text-gray-600 text-lg"></i>
+                                    <i class="far fa-star text-gray-300 text-lg"></i>
                                 @endfor
                             </div>
 
                             {{-- Total reseñas --}}
-                            <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                            <span class="ml-2 text-sm text-gray-600">
                                 ({{ $totalResenyas }} reseñas)
                             </span>
                         </div>
@@ -52,15 +52,15 @@
                     <div class="flex items-start justify-between p-6">
                         <div class="flex-1">
                             <div class="flex flex-col w-96 break-words overflow-hidden">
-                                <strong class="text-info-variant-3 dark:text-info-variant-4">Adreça:</strong>
-                                <p class="text-gray-700 dark:text-gray-300">{{ $botiga->adreca ?? 'No especificada' }}</p>
+                                <strong class="text-info-variant-3">Adreça:</strong>
+                                <p class="text-gray-700">{{ $botiga->adreca ?? 'No especificada' }}</p>
                             </div>
                             <br>
                             <div>
                             @if($botiga->web)
                                 <div class="mb-4">
-                                    <strong class="text-info-variant-3 dark:text-info-variant-4">Web:</strong>
-                                    <p class="text-gray-700 dark:text-gray-300">
+                                    <strong class="text-info-variant-3">Web:</strong>
+                                    <p class="text-gray-700">
                                         <a href="{{ $botiga->web }}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">{{ $botiga->web }}</a>
                                     </p>
                                 </div>
@@ -69,8 +69,8 @@
                         <div class="flex flex-col w-full sm:w-96 md:w-[30rem] break-words overflow-hidden pr-10">
                             @if($botiga->descripcio)
                                 <div class="mb-4">
-                                    <strong class="text-info-variant-3 dark:text-info-variant-4">Descripció:</strong>
-                                    <p class="text-gray-700 dark:text-gray-300 text-justify">{{ $botiga->descripcio }}</p>
+                                    <strong class="text-info-variant-3">Descripció:</strong>
+                                    <p class="text-gray-700 text-justify">{{ $botiga->descripcio }}</p>
                                 </div>
                             @endif
                         </div>
@@ -88,17 +88,17 @@
                             <div>
                                 @if($botiga->horariObertura&&$botiga->horariTencament)
                                     <div class="mb-4">
-                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Horari d'Obertura y Tancament:</strong>
-                                        <p class="text-gray-700 dark:text-gray-300">{{ $botiga->horariObertura }} - {{ $botiga->horariTencament }}</p>
+                                        <strong class="text-info-variant-3">Horari d'Obertura y Tancament:</strong>
+                                        <p class="text-gray-700">{{ $botiga->horariObertura }} - {{ $botiga->horariTencament }}</p>
                                     </div>
                                 @endif
                             </div>
                             <div>
                                 @if($botiga->telefono&&$botiga->coreoelectronic)
                                     <div class="mb-4">
-                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Contractos:</strong>
-                                        <p class="text-gray-700 dark:text-gray-300">Telefono: {{ $botiga->telefono }}</p>
-                                        <p class="text-gray-700 dark:text-gray-300">Correo: {{ $botiga->coreoelectronic }}</p>
+                                        <strong class="text-info-variant-3">Contractos:</strong>
+                                        <p class="text-gray-700">Telefono: {{ $botiga->telefono }}</p>
+                                        <p class="text-gray-700">Correo: {{ $botiga->coreoelectronic }}</p>
 
                                     </div>
                                 @endif
@@ -106,8 +106,8 @@
                             <div>
                                 @if($botiga->latitud && $botiga->longitud)
                                     <div class="mb-4">
-                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Coordenades:</strong>
-                                        <p class="text-gray-700 dark:text-gray-300">  Lat: {{ number_format($botiga->latitud, 2) }}, Lon: {{ number_format($botiga->longitud, 2) }}</p>
+                                        <strong class="text-info-variant-3">Coordenades:</strong>
+                                        <p class="text-gray-700 ">  Lat: {{ number_format($botiga->latitud, 2) }}, Lon: {{ number_format($botiga->longitud, 2) }}</p>
                                     </div>
                                 @endif
                             </div>
@@ -120,7 +120,7 @@
                             <div>
                                 @if($botiga->latitud && $botiga->longitud)
                                     <div class="mb-4">
-                                        <strong class="text-info-variant-3 dark:text-info-variant-4">Mapa:</strong>
+                                        <strong class="text-info-variant-3">Mapa:</strong>
                                     </div>
                                 @endif
                             </div>
@@ -166,26 +166,26 @@
 
                         <!-- Botón para volver a la lista -->
                         <div class="mt-6">
-                            <a href="{{ route('botigues.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 dark:bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-500 focus:bg-gray-400 dark:focus:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                            <a href="{{ route('botigues.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 {{ __('Tornar a la llista') }}
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="p-6 bg-info-variant-1-5 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+                <div class="p-6 bg-info-variant-1-5 border-b border-gray-200">
                     <div>
                         <!-- Reseñas y comentarios (esto ya está implementado en tu código) -->
                         @if($botiga->ressenyes->count())
                             <div class="mt-8">
-                                <h4 class="text-lg font-semibold text-primary-variant-5 dark:text-white mb-4">Ressenyes</h4>
+                                <h4 class="text-lg font-semibold text-primary-variant-5 mb-4">Ressenyes</h4>
                                 <div class="overflow-x-auto space-x-4 flex">
                                     @foreach($botiga->ressenyes as $r)
-                                        <div class="inline-block w-72 flex-shrink-0 bg-white dark:bg-gray-800 border rounded dark:border-gray-600 p-4 break-words overflow-hidden min-h-[10px]">
+                                        <div class="inline-block w-72 flex-shrink-0 bg-white border rounded p-4 break-words overflow-hidden min-h-[10px]">
                                             <p class="font-semibold text-primary-variant-4">
                                                 {{ $r->usuari }} 
                                                 <span class="text-sm text-gray-500">({{ $r->valoracio }}/5)</span>
                                             </p>
-                                            <p class="text-sm mt-2 text-gray-700 dark:text-gray-300 break-words whitespace-normal">
+                                            <p class="text-sm mt-2 text-gray-700 break-words whitespace-normal">
                                                 {{ $r->comentari }}
                                             </p>
                                             <p class="text-xs text-gray-400 mt-2">
@@ -200,7 +200,7 @@
                     <div>
                         @if(Auth::check())
                             <div class="mt-6">
-                                <h4 class="text-lg font-semibold text-primary-variant-5 dark:text-white mb-2">Deixa la teva ressenya</h4>
+                                <h4 class="text-lg font-semibold text-primary-variant-5 mb-2">Deixa la teva ressenya</h4>
 
                                 @if(session('success'))
                                     <div class="text-green-500 mb-2">{{ session('success') }}</div>
@@ -208,15 +208,15 @@
                                 <form method="POST" action="{{ route('botigues.ressenya.guardar', $botiga->id) }}">
                                     @csrf
                                     <div class="mb-4">
-                                        <label for="valoracio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Valoració (1-5)</label>
+                                        <label for="valoracio" class="block text-sm font-medium text-gray-700">Valoració (1-5)</label>
                                         <input type="number" name="valoracio" id="valoracio" min="1" max="5" required
-                                            class="bg-info-variant-1 form-control mt-1 rounded-md  dark:text-gray-100 dark:border-gray-600 w-full"></textarea>
+                                            class="bg-info-variant-1 form-control mt-1 rounded-md w-full"></textarea>
                                     </div>
 
                                     <div class="mb-4">
-                                        <label for="comentari" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comentari</label>
+                                        <label for="comentari" class="block text-sm font-medium text-gray-700">Comentari</label>
                                         <textarea name="comentari" id="comentari" rows="4" required
-                                            class="bg-info-variant-1 form-control mt-1 rounded-md  dark:text-gray-100 dark:border-gray-600 w-full"></textarea>
+                                            class="bg-info-variant-1 form-control mt-1 rounded-md w-full"></textarea>
                                     </div>
 
                                     <button type="submit"
@@ -226,7 +226,7 @@
                                 </form>
                             </div>
                         @else
-                            <p class="text-gray-700 dark:text-gray-300 mt-6">
+                            <p class="text-gray-700 mt-6">
                                 <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Inicia sessió</a> per deixar una ressenya.
                             </p>
                         @endif

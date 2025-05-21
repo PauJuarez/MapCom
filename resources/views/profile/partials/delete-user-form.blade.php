@@ -1,10 +1,10 @@
 <section class="space-y-6">
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-gray-900">
             {{ __('Esborra el compte') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-gray-600">
             {{ __('Un cop el teu compte estigui esborrat, tots els seus recursos i dades seran eliminats permanentment. Abans d’esborrar el compte, si us plau, descarrega qualsevol dada o informació que vulguis conservar.') }}
         </p>
     </header>
@@ -19,11 +19,11 @@
             @csrf
             @method('delete')
 
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium text-gray-900">
                 {{ __('Estàs segur que vols esborrar el teu compte?') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-1 text-sm text-gray-600">
                 {{ __('Un cop el teu compte estigui esborrat, tots els seus recursos i dades seran eliminats permanentment. Introdueix la teva contrasenya per confirmar que vols esborrar el teu compte de manera permanent.') }}
             </p>
 

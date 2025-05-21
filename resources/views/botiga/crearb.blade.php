@@ -1,51 +1,51 @@
     <x-app-layout>
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
+            <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
                 {{ __('Crear Botiga') }}
             </h2>
         </x-slot>
 
         <div class="py-12">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 ">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 bg-primary-variant-1">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 bg-primary-variant-1">
 
                     <form method="POST" action="{{ route('botigues.store') }}">
                     @csrf
                         <div class="mb-4">
                             <label for="nom"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Nom') }}</label>
+                                class="block text-sm font-medium text-gray-700">{{ __('Nom') }}</label>
                             <input type="text" name="nom" id="nom"
-                                class="bg-info-variant-1 form-control mt-1 w-1/2 rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200 dark:bg-gray-700 dark:text-white"
+                                class="bg-info-variant-1 form-control mt-1 w-1/2 rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200"
                                 required>
                         </div>
 
 
                         <div class="mb-4">
                             <label for="descripcio"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Descripció') }}</label>
+                                class="block text-sm font-medium text-gray-700">{{ __('Descripció') }}</label>
                             <textarea name="descripcio" id="descripcio" rows="3"
-                                    class=" bg-info-variant-1 form-control mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200 dark:bg-gray-700 dark:text-white"></textarea>
+                                    class=" bg-info-variant-1 form-control mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200"></textarea>
                         </div>
 
                         <div class="mb-4">
                             <label for="adreca"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Adreça') }}</label>
+                                class="block text-sm font-medium text-gray-700">{{ __('Adreça') }}</label>
                             <input type="text" name="adreca" id="adreca"
-                                class="bg-info-variant-1 form-control mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200 dark:bg-gray-700 dark:text-white">
+                                class="bg-info-variant-1 form-control mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200">
                         </div>
 
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label for="latitud"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Latitud') }}</label>
+                                    class="block text-sm font-medium text-gray-700">{{ __('Latitud') }}</label>
                                 <input type="text" name="latitud" id="latitud"
-                                    class="bg-info-variant-1 form-control mt-1 rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200 dark:bg-gray-700 dark:text-white">
+                                    class="bg-info-variant-1 form-control mt-1 rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200">
                             </div>
                             <div class="col-md-6">
                                 <label for="longitud"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Longitud') }}</label>
+                                    class="block text-sm font-medium text-gray-700">{{ __('Longitud') }}</label>
                                 <input type="text" name="longitud" id="longitud"
-                                    class="bg-info-variant-1 form-control mt-1 rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200 dark:bg-gray-700 dark:text-white">
+                                    class="bg-info-variant-1 form-control mt-1 rounded-md shadow-sm border-gray-300 focus:border-info-500 focus:ring focus:ring-info-200">
                             </div>
                             <div class="col-md-12">
                                 <div id="mapContainer" class="d-flex" style="height: 300px; margin-top: 10px;">
@@ -54,11 +54,11 @@
                             </div>
                         </div>
                     <div class="form-group">
-                        <label for="caracteristiques" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Característiques:</label><br>
+                        <label for="caracteristiques" class="block text-sm font-medium text-gray-700">Característiques:</label><br>
                         <div class="row mb-4 max-w-4xl mx-auto sm:px-6 lg:px-8">
                             @foreach($caracteristiques as $caracteristica)
                                 <div class="col-md-4">
-                                    <div class="form-check block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    <div class="form-check block text-sm font-medium text-gray-700">
                                         <input
                                             type="checkbox"
                                             name="caracteristiques[]"

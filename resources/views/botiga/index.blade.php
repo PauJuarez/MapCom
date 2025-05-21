@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
             {{ __('Botigues') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
                 <!-- Formulario de filtrado -->
                 <!-- Filtro dinámico por características -->
                 <form id="filterForm" method="GET" action="{{ route('botigues.index') }}" class="mb-6">
                     <div class="flex flex-col">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filtrar per característiques</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Filtrar per característiques</label>
 
                         <!-- Botones toggle -->
                         <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
@@ -23,7 +23,7 @@
                                 <button type="button"
                                         data-id="{{ $carac->id }}"
                                         class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
-                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500' }}">
+                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
                                     {{ $carac->nom }}
                                 </button>
                             @endforeach
@@ -36,11 +36,11 @@
 
 
                 @if($botigues->isEmpty())
-                    <p class="text-gray-600 dark:text-gray-300">No hi ha botigues registrades.</p>
+                    <p class="text-gray-600">No hi ha botigues registrades.</p>
                 @else
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700 space-y-6 relative ">
+                    <ul class="divide-y divide-gray-200 space-y-6 relative ">
                         @foreach($botigues as $botiga)
-                            <li class="relative py-6 px-4 bg-info-variant-1 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
+                            <li class="relative py-6 px-4 bg-info-variant-1 hover:bg-blue-100 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
                                     <!-- Imagen encima solo en móvil -->
                             <div class="mb-4 md:hidden">
                                 @if($botiga->imatge)
@@ -106,11 +106,11 @@
                         
                                     <!-- Contenido de la tienda -->
                                     <div>
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $botiga->nom }}</h3>
-                                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $botiga->adreca }}</p>
+                                        <h3 class="text-xl font-semibold text-gray-900">{{ $botiga->nom }}</h3>
+                                        <p class="text-sm text-gray-700">{{ $botiga->adreca }}</p>
 
                                         @if($botiga->descripcio)
-                                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                            <p class="text-sm text-gray-500 mt-2">
                                                 {{ Str::limit($botiga->descripcio, 250, '...') }}
                                             </p>
                                             <a href="{{ route('botiga.show', $botiga->id) }}">
@@ -189,11 +189,11 @@
 
                 // Actualizar estilo del botón
                 if (index === -1) {
-                    this.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                    this.classList.remove('bg-gray-200','text-gray-800', 'hover:bg-gray-300');
                     this.classList.add('bg-blue-600', 'text-white');
                 } else {
                     this.classList.remove('bg-blue-600', 'text-white');
-                    this.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                    this.classList.add('bg-gray-200','text-gray-800','hover:bg-gray-300');
                 }
 
                 // Construir URL con parámetros correctos

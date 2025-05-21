@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-info-variant-4 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
             {{ __('Botigues Preferides') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
                 <!-- Filtro dinámico por características -->
 <form id="filterForm" method="GET" action="{{ route('Home') }}" class="mb-6">
     <div class="flex flex-col">
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filtrar per característiques</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Filtrar per característiques</label>
 
         <!-- Botones toggle -->
         <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
@@ -22,7 +22,7 @@
                 <button type="button"
                         data-id="{{ $carac->id }}"
                         class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
-                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500' }}">
+                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
                     {{ $carac->nom }}
                 </button>
             @endforeach
@@ -33,11 +33,11 @@
     </div>
 </form>
                 @if($botigues->isEmpty())
-                    <p class="text-gray-600 dark:text-gray-300">No tens botigues favorites.</p>
+                    <p class="text-gray-600">No tens botigues favorites.</p>
                 @else
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700 space-y-6 relative">
+                    <ul class="divide-y divide-gray-200 space-y-6 relative">
                         @foreach($botigues as $botiga)
-                            <li class="relative py-6 px-4 bg-info-variant-1 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
+                            <li class="relative py-6 px-4 bg-info-variant-1 hover:bg-blue-100 rounded-xl shadow-md transition-all duration-300 ease-in-out ">
                             <div class="mb-4 md:hidden">
                                 @if($botiga->imatge)
                                     <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded w-full max-w-xs mx-auto object-cover">
@@ -89,10 +89,10 @@
                         
                                     <!-- Contenido de la tienda -->
                                     <div>
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $botiga->nom }}</h3>
-                                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $botiga->adreca }}</p>
+                                        <h3 class="text-xl font-semibold text-gray-900">{{ $botiga->nom }}</h3>
+                                        <p class="text-sm text-gray-700">{{ $botiga->adreca }}</p>
                                         @if($botiga->descripcio)
-                                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{ $botiga->descripcio }}</p>
+                                            <p class="text-sm text-gray-500 mt-2">{{ $botiga->descripcio }}</p>
                                             <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
                                                 <a href="{{ route('botiga.show', $botiga->id) }}">Veure Detalls</a>
                                             </button>
@@ -165,11 +165,11 @@
 
                 // Actualizar estilo del botón
                 if (index === -1) {
-                    this.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                    this.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
                     this.classList.add('bg-blue-600', 'text-white');
                 } else {
                     this.classList.remove('bg-blue-600', 'text-white');
-                    this.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-500');
+                    this.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
                 }
 
                 // Construir URL con parámetros correctos
