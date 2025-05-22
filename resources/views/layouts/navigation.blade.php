@@ -75,7 +75,11 @@
                 </x-nav-link>
             @endif
             @if(Gate::allows('access-admin'))
-
+                <x-nav-link :href="route('municipis.index')" :active="request()->routeIs('municipis.index')">
+                    <span class="text-lg">{{ __('Municipis') }}</span>
+                </x-nav-link>
+            @endif
+            @if(Gate::allows('access-admin'))
                 <x-nav-link :href="route('botigues.users')" :active="request()->routeIs('botigues.users')">
                     <span class="text-lg">{{ __('Rols d\'Usuaris') }}</span>
                 </x-nav-link>
@@ -100,6 +104,11 @@
             @if(Gate::allows('access-admin') || Gate::allows('access-editor'))
                 <x-responsive-nav-link :href="route('botigues.crearb')" :active="request()->routeIs('botigues.crearb')">
                     {{ __('Crear Botigues') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Gate::allows('access-admin'))
+                <x-responsive-nav-link :href="route('municipis.index')" :active="request()->routeIs('municipis.index')">
+                    {{ __('Municipis') }}
                 </x-responsive-nav-link>
             @endif
             @if(Gate::allows('access-admin'))

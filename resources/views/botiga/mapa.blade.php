@@ -12,7 +12,23 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
-
+                <!-- Selector de Municipios -->
+<div class="mb-6">
+    <label for="municipiSelect" class="block text-sm font-medium text-gray-700 mb-2">
+        Selecciona un Municipi
+    </label>
+    <select id="municipiSelect" class="w-full sm:w-1/2 p-2 border rounded-md">
+        <option value="">-- Selecciona un municipi --</option>
+        @foreach($municipis as $municipi)
+            <option value="{{ $municipi->id }}"
+                data-lat="{{ $municipi->latitud }}"
+                data-lng="{{ $municipi->longitud }}"
+                data-zoom="{{ $municipi->zoom }}">
+                {{ $municipi->nombre }}
+            </option>
+        @endforeach
+    </select>
+</div>
                 <!-- Filtro dinámico por características -->
                 <form id="filterForm" method="GET" action="{{ route('botigues.mapa') }}" class="mb-6">
                     <div class="flex flex-col">
@@ -54,19 +70,40 @@
     <!-- Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Iniciar mapa
-            const catalunyaCenter = [41.6663, 1.8597];
-            const map = L.map('map').setView(catalunyaCenter, 15.2);
+            // Iniciar mapa con valores por defecto
+            let currentMap = L.map('map');
 
+            // Valores por defecto si no se ha seleccionado ningún municipio
+            let defaultCenter = [41.6663, 1.8597]; // Sant Vicenç de Castellet aproximado
+            let defaultZoom = 15.2;
+
+            currentMap.setView(defaultCenter, defaultZoom);
+
+            // Añadir capa OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
+            }).addTo(currentMap); // ✅ Usamos currentMap
 
+
+            // Manejador del selector de municipios
+            document.getElementById('municipiSelect').addEventListener('change', function () {
+                const selected = this.options[this.selectedIndex];
+                const lat = parseFloat(selected.getAttribute('data-lat'));
+                const lng = parseFloat(selected.getAttribute('data-lng'));
+                const zoom = parseInt(selected.getAttribute('data-zoom'));
+
+                if (!isNaN(lat) && !isNaN(lng) && !isNaN(zoom)) {
+                    currentMap.setView([lat, lng], zoom);
+                }
+            });
+
+
+            // Mostrar botigues
             const botigues = @json($botigues);
             let marcadores = 0;
 
             const botigaIcon = L.icon({
-                iconUrl: 'https://cdn-icons-png.flaticon.com/512/484/484167.png',
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/484/484167.png ',
                 iconSize: [32, 32],
                 iconAnchor: [16, 32]
             });
@@ -74,7 +111,7 @@
             botigues.forEach(botiga => {
                 if (botiga.latitud && botiga.longitud && !isNaN(parseFloat(botiga.latitud)) && !isNaN(parseFloat(botiga.longitud))) {
                     L.marker([botiga.latitud, botiga.longitud], { icon: botigaIcon })
-                        .addTo(map)
+                        .addTo(currentMap) // ✅ Agregar al mapa correcto
                         .bindPopup(`
                             <strong>${botiga.nom}</strong><br>
                             ${botiga.adreca || 'Sense adreça'}<br>

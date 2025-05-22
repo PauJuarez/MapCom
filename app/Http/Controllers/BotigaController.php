@@ -6,49 +6,51 @@ use App\Models\Botiga;
 use App\Models\User;
 use App\Models\Ressenya;
 use App\Models\Caracteristica;
+use App\Models\Municipi;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\RedirectResponse;
 
 class BotigaController extends Controller
 {
-public function home(Request $request)
-{
-    // Verificar si hay un usuario autenticado
-    $user = auth()->user();
+    public function home(Request $request)
+    {
+        // Verificar si hay un usuario autenticado
+        $user = auth()->user();
 
-    if (!$user) {
-        return view('home', [
-            'botigues' => collect(),
-            'caracteristiques' => Caracteristica::all(),
-        ]);
-    }
-
-    // Obtener las tiendas favoritas del usuario como una consulta (query builder)
-    $query = $user->favoritos()->with('caracteristiques');
-
-    // Filtrar por características si se ha enviado el formulario
-    if ($filtroIds = $request->input('caracteristiques')) {
-        $filtroIds = array_filter($filtroIds); // Limpiar valores vacíos
-
-        if (!empty($filtroIds)) {
-            $query->whereHas('caracteristiques', function ($q) use ($filtroIds) {
-                $q->whereIn('caracteristiques.id', $filtroIds);
-            }, '=', count($filtroIds));
+        if (!$user) {
+            return view('home', [
+                'botigues' => collect(),
+                'caracteristiques' => Caracteristica::all(),
+            ]);
         }
+
+        // Obtener las tiendas favoritas del usuario como una consulta (query builder)
+        $query = $user->favoritos()->with('caracteristiques');
+
+        // Filtrar por características si se ha enviado el formulario
+        if ($filtroIds = $request->input('caracteristiques')) {
+            $filtroIds = array_filter($filtroIds); // Limpiar valores vacíos
+
+            if (!empty($filtroIds)) {
+                $query->whereHas('caracteristiques', function ($q) use ($filtroIds) {
+                    $q->whereIn('caracteristiques.id', $filtroIds);
+                }, '=', count($filtroIds));
+            }
+        }
+
+        // Paginación
+        $number = $request->input('per_page', 3); // Número de resultados por página
+        $botigues = $query->latest()->paginate($number)->appends($request->all());
+
+        // Cargar todas las características para mostrar el filtro
+        $caracteristiques = Caracteristica::all();
+
+        return view('home', compact('botigues', 'caracteristiques'));
     }
-
-    // Paginación
-    $number = $request->input('per_page', 3); // Número de resultados por página
-    $botigues = $query->latest()->paginate($number)->appends($request->all());
-
-    // Cargar todas las características para mostrar el filtro
-    $caracteristiques = Caracteristica::all();
-
-    return view('home', compact('botigues', 'caracteristiques'));
-}
     // Muestra una lista de productos, por ejemplo
     public function index(Request $request)
     {
@@ -72,31 +74,33 @@ public function home(Request $request)
         return view('botiga.index', compact('botigues', 'caracteristiques'));
     }
 
-    
-public function mapa(Request $request): View
-{
-    $caracteristiques = Caracteristica::all();
+    public function mapa(Request $request): View
+    {
+        $caracteristiques = Caracteristica::all();
 
-    // Crear consulta base
-    $query = Botiga::query();
+        // Crear consulta base
+        $query = Botiga::query();
 
-    // Aplicar filtro si hay características seleccionadas
-    if ($filtroIds = $request->input('caracteristiques')) {
-        $filtroIds = array_filter($filtroIds); // limpiar valores vacíos
+        // Aplicar filtro si hay características seleccionadas
+        if ($filtroIds = $request->input('caracteristiques')) {
+            $filtroIds = array_filter($filtroIds); // limpiar valores vacíos
 
-        if (!empty($filtroIds)) {
-            $query->whereHas('caracteristiques', function ($q) use ($filtroIds) {
-                $q->whereIn('caracteristiques.id', $filtroIds);
-            }, '=', count($filtroIds));
+            if (!empty($filtroIds)) {
+                $query->whereHas('caracteristiques', function ($q) use ($filtroIds) {
+                    $q->whereIn('caracteristiques.id', $filtroIds);
+                }, '=', count($filtroIds));
+            }
         }
+
+        $botigues = $query->get();
+
+        $municipis = Municipi::whereNotNull('latitud')
+                            ->whereNotNull('longitud')
+                            ->whereNotNull('zoom')
+                            ->get();
+        // Pasar las variables necesarias a la vista
+        return view('botiga.mapa', compact('botigues', 'caracteristiques', 'municipis'));
     }
-
-    $botigues = $query->get();
-
-    // Pasar las variables necesarias a la vista
-    return view('botiga.mapa', compact('botigues', 'caracteristiques'));
-}
-
 
     public function show($id):view
     {
@@ -111,7 +115,6 @@ public function mapa(Request $request): View
         
         return view('botiga.show', compact('botiga', 'promedioValoracion', 'totalResenyas'));
     }
-
     // Muestra un formulario para crear un nuevo producto
     public function create()
     {
@@ -130,7 +133,6 @@ public function mapa(Request $request): View
         return view('botiga.users', compact('users'));
     }
 
-
     public function editone($id)
     {
         $botiga = Botiga::findOrFail($id);
@@ -141,73 +143,70 @@ public function mapa(Request $request): View
         abort(403, 'Unauthorized!');
     }
 
-public function update(Request $request, $id)
-{
-    $validated = $request->validate([
-        'nom' => 'required|string|max:255',
-        'descripcio' => 'nullable|string',
-        'adreca' => 'nullable|string|max:255',
-        'latitud' => 'nullable|numeric',
-        'longitud' => 'nullable|numeric',
-        'horariObertura' => 'nullable|date_format:H:i',
-        'horariTencament' => 'nullable|date_format:H:i',
-        'telefono' => 'nullable|digits:9',
-        'coreoelectronic' => 'nullable|email|max:255',
-        'web' => 'nullable|url|max:255',
-        'imatge' => 'nullable|string|max:255',
-        'caracteristiques' => 'nullable|array', // validar que sea array
-        'caracteristiques.*' => 'exists:caracteristiques,id', // validar ids existentes
-    ]);
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'descripcio' => 'nullable|string',
+            'adreca' => 'nullable|string|max:255',
+            'latitud' => 'nullable|numeric',
+            'longitud' => 'nullable|numeric',
+            'horariObertura' => 'nullable|date_format:H:i',
+            'horariTencament' => 'nullable|date_format:H:i',
+            'telefono' => 'nullable|digits:9',
+            'coreoelectronic' => 'nullable|email|max:255',
+            'web' => 'nullable|url|max:255',
+            'imatge' => 'nullable|string|max:255',
+            'caracteristiques' => 'nullable|array', // validar que sea array
+            'caracteristiques.*' => 'exists:caracteristiques,id', // validar ids existentes
+        ]);
 
-    $botiga = Botiga::findOrFail($id);
-    $botiga->update($validated);
+        $botiga = Botiga::findOrFail($id);
+        $botiga->update($validated);
 
-    // Guardar las características seleccionadas (si hay)
-    if ($request->has('caracteristiques')) {
-        $botiga->caracteristiques()->sync($request->input('caracteristiques'));
-    } else {
-        $botiga->caracteristiques()->detach();
+        // Guardar las características seleccionadas (si hay)
+        if ($request->has('caracteristiques')) {
+            $botiga->caracteristiques()->sync($request->input('caracteristiques'));
+        } else {
+            $botiga->caracteristiques()->detach();
+        }
+
+        return redirect()->route('botigues.index')->with('success', 'Botiga actualizada correctamente.');
     }
 
-    return redirect()->route('botigues.index')->with('success', 'Botiga actualizada correctamente.');
-}
-
-
-        public function store(Request $request)
-        {
-            $validated = $request->validate([
-                'nom' => 'required|string|max:255',
-                'descripcio' => 'nullable|string',
-                'adreca' => 'nullable|string|max:255',
-                'latitud' => 'nullable|numeric',
-                'longitud' => 'nullable|numeric',
-                'horariObertura' => 'nullable|date_format:H:i',
-                'horariTencament' => 'nullable|date_format:H:i',
-                'telefono' => 'nullable|digits:9',
-                'coreoelectronic' => 'nullable|email|max:255',
-                'web' => 'nullable|url|max:255',
-                'imatge' => 'nullable|string|max:255',
-                'caracteristiques' => 'nullable|array', // validar que sea array
-                'caracteristiques.*' => 'exists:caracteristiques,id', // validar ids existentes
-
-            ]);
-
-            $validated['user_id'] = auth()->id();
-
-            $botiga = Botiga::create($validated);
-
-            // Guardar las características seleccionadas (si hay)
-            if ($request->has('caracteristiques')) {
-                $botiga->caracteristiques()->sync($request->input('caracteristiques'));
-            }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'descripcio' => 'nullable|string',
+            'adreca' => 'nullable|string|max:255',
+            'latitud' => 'nullable|numeric',
+            'longitud' => 'nullable|numeric',
+            'horariObertura' => 'nullable|date_format:H:i',
+            'horariTencament' => 'nullable|date_format:H:i',
+            'telefono' => 'nullable|digits:9',
+            'coreoelectronic' => 'nullable|email|max:255',
+            'web' => 'nullable|url|max:255',
+            'imatge' => 'nullable|string|max:255',
+            'caracteristiques' => 'nullable|array', // validar que sea array
+            'caracteristiques.*' => 'exists:caracteristiques,id', // validar ids existentes
+        ]);
+        $validated['user_id'] = auth()->id();
+        $botiga = Botiga::create($validated);
+        // Guardar las características seleccionadas (si hay)
+        if ($request->has('caracteristiques')) {
+            $botiga->caracteristiques()->sync($request->input('caracteristiques'));
+        }
 
             return redirect()->route('botigues.index')->with('success', 'Botiga creada correctament.');
         }
 
 
             // Método para eliminar una botiga
-    public function destroy($id)
-    {
+    
+    
+            public function destroy($id)
+        {
         $botiga = Botiga::findOrFail($id);
         if (Gate::allows('access-admin') || Gate::allows('edit-botiga', $botiga)) {
             $botiga->delete();
@@ -240,6 +239,7 @@ public function update(Request $request, $id)
         auth()->user()->favoritos()->detach($botiga->id);
         return back()->with('success', 'Eliminada dels favorits!');
     }
+    
     public function guardarRessenya(Request $request, $botiga_id)
     {
         $request->validate([
@@ -259,6 +259,18 @@ public function update(Request $request, $id)
         return back()->with('success', 'Ressenya enviada correctament!');
     }
 
-
+    
+    // Elimina una reseña específica.*
+    // @param  \App\Models\Ressenya $ressenya
+    // @return \Illuminate\Http\RedirectResponse,
+    public function eliminarRessenya(Ressenya $ressenya): RedirectResponse
+    {// Autorización:// Solo el usuario que creó la reseña o un administrador puede eliminarla.
+        if (Auth::id() !== $ressenya->user_id && !Gate::allows('access-admin')) {
+            abort(403, 'Unauthorized action.');}
+            // Eliminar la reseña
+            $ressenya->delete();
+            // Redireccionar con un mensaje de éxito
+            return back()->with('success', 'Ressenya eliminada correctament!');
+        }
     
 }

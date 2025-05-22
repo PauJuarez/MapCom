@@ -180,17 +180,31 @@
                                 <h4 class="text-lg font-semibold text-primary-variant-5 mb-4">Ressenyes</h4>
                                 <div class="overflow-x-auto space-x-4 flex">
                                     @foreach($botiga->ressenyes as $r)
-                                        <div class="inline-block w-72 flex-shrink-0 bg-white border rounded p-4 break-words overflow-hidden min-h-[10px]">
+                                        <div x-data="{ expanded: false }" @click="expanded = !expanded" class="inline-block w-72 flex-shrink-0 bg-white dark:bg-gray-800 border rounded dark:border-gray-600 p-4 cursor-pointer min-h-[10px]">
                                             <p class="font-semibold text-primary-variant-4">
                                                 {{ $r->usuari }} 
                                                 <span class="text-sm text-gray-500">({{ $r->valoracio }}/5)</span>
                                             </p>
-                                            <p class="text-sm mt-2 text-gray-700 break-words whitespace-normal">
+                                            <p class="text-sm mt-2 text-gray-700 dark:text-gray-300 break-words whitespace-normal transition-all duration-300 overflow-hidden" :class="expanded ? 'line-clamp-none max-h-full' : 'line-clamp-3 max-h-20'">
                                                 {{ $r->comentari }}
                                             </p>
                                             <p class="text-xs text-gray-400 mt-2">
                                                 {{ \Carbon\Carbon::parse($r->dataPublicacio)->format('d/m/Y H:i') }}
                                             </p>
+                                            {{-- Solo se muestra si el usuario es el autor de la reseña O es un administrador --}}
+                                            @if(Auth::check() && (Auth::id() === $r->user_id || Gate::allows('access-admin')))
+                                                {{-- @click.stop="" es crucial para que el clic en este botón NO expanda/repliegue la tarjeta --}}
+                                                <form action="{{ route('ressenyes.destroy', $r) }}" method="POST" class="mt-2" @click.stop="">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="text-red-500 hover:text-red-700 text-xs font-semibold"
+                                                            onclick="return confirm('¿Estás seguro de que quieres eliminar esta reseña?')"
+                                                    >
+                                                        Eliminar reseña
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>

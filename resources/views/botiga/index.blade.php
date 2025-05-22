@@ -1,4 +1,4 @@
-<x-app-layout>
+    <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
             {{ __('Botigues') }}
@@ -72,7 +72,7 @@
                                                 </svg>
                                             </a>
                             
-                                            <form action="{{ route('botigues.destroy', $botiga->id) }}" method="POST">
+                                            <form action="{{ route('botigues.destroy', $botiga->id) }}" method="POST" onsubmit="return confirm('Estàs segur que vols eliminar aquesta botiga?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

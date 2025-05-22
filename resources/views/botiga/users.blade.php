@@ -7,14 +7,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6">
+            <div class="bg-secondary-variant-2 overflow-hidden shadow-xl sm:rounded-xl p-6">
                 @if($users->isEmpty())
                     <p class="text-gray-600">No hi ha usuaris registrats.</p>
                 @else
                     <ul class="divide-y divide-gray-200 space-y-6 relative">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($users as $user)
-                            <li class="relative py-6 px-4 bg-[#e9f2fc] hover:bg-blue-100 rounded-xl shadow-md transition-all duration-300 ease-in-out">
+                            <li class="bg-secondary-variant-1 relative py-6 px-4 bg-[#e9f2fc] hover:bg-blue-100 rounded-xl shadow-md transition-all duration-300 ease-in-out">
                                 <div>
                                     <h3 class="text-xl font-semibold text-gray-900">{{ $user->name }}</h3>
                                     <p class="text-sm text-gray-700">{{ $user->email }}</p>
