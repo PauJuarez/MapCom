@@ -1,3 +1,17 @@
+<style>
+  /* Estilo por defecto (en pantallas grandes) */
+  #map {
+    height: 500px;
+  }
+
+  /* Estilo para dispositivos móviles */
+  @media (max-width: 768px) {
+    #map {
+      height: 300px;
+    }
+  }
+</style>
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
@@ -12,31 +26,30 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
-                <!-- Selector de Municipios -->
-<div class="mb-6">
-    <label for="municipiSelect" class="block text-sm font-medium text-gray-700 mb-2">
-        Selecciona un Municipi
-    </label>
-    <select id="municipiSelect" class="w-full sm:w-1/2 p-2 border rounded-md">
-        <option value="">-- Selecciona un municipi --</option>
-        @foreach($municipis as $municipi)
-            <option value="{{ $municipi->id }}"
-                data-lat="{{ $municipi->latitud }}"
-                data-lng="{{ $municipi->longitud }}"
-                data-zoom="{{ $municipi->zoom }}">
-                {{ $municipi->nombre }}
-            </option>
-        @endforeach
-    </select>
-</div>
-                <!-- Filtro dinámico por características -->
+            <!-- Selector de Municipios -->
+                <div class="mb-6">
+                    <label for="municipiSelect" class="block text-sm font-medium text-gray-700 mb-2">
+                        Selecciona un Municipi
+                    </label>
+                    <select id="municipiSelect" class="w-full sm:w-1/2 p-2 border rounded-md">
+                        <option value="">-- Selecciona un municipi --</option>
+                        @foreach($municipis as $municipi)
+                            <option value="{{ $municipi->id }}"
+                                data-lat="{{ $municipi->latitud }}"
+                                data-lng="{{ $municipi->longitud }}"
+                                data-zoom="{{ $municipi->zoom }}">
+                                {{ $municipi->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            <!-- Filtro dinámico por características -->
                 <form id="filterForm" method="GET" action="{{ route('botigues.mapa') }}" class="mb-6">
                     <div class="flex flex-col">
                         <label class="block text-sm font-medium text-gray-700">
                             Filtrar per característiques
                         </label>
-
-                        <!-- Botones toggle -->
+                    <!-- Botones toggle -->
                         <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
                             @foreach($caracteristiques as $carac)
                                 @php
@@ -50,16 +63,13 @@
                                 </button>
                             @endforeach
                         </div>
-
-                        <!-- Input oculto para IDs seleccionadas -->
+                    <!-- Input oculto para IDs seleccionadas -->
                         <input type="hidden" name="caracteristiques[]" id="selectedCaracteristiques" value="{{ request('caracteristiques') ? implode(',', request('caracteristiques')) : '' }}">
                     </div>
                 </form>
-
-                <!-- Mapa -->
-                <div id="map" style="height: 600px;"></div>
-
-                <!-- Mensaje si no hay coordenadas -->
+            <!-- Mapa -->
+                <div id="map"></div>
+            <!-- Mensaje si no hay botigas -->
                 <div id="no-data" class="hidden text-center mt-4 text-red-600">
                     No s'han trobat botigues amb coordenades vàlides
                 </div>
