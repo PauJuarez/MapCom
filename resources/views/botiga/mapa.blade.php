@@ -14,7 +14,7 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-info-variant-4 leading-tight">
+        <h2 id="map-title" class="font-semibold text-xl text-info-variant-4 leading-tight">
             {{ __('Mapa de Botigues a Sant Vicenç de Castellet') }}
         </h2>
     </x-slot>
@@ -28,10 +28,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
             <!-- Selector de Municipios -->
                 <div class="mb-6">
-                    <label for="municipiSelect" class="block text-sm font-medium text-gray-700 mb-2">
-                        Selecciona un Municipi
-                    </label>
-                    <select id="municipiSelect" class="w-full sm:w-1/2 p-2 border rounded-md">
+                    <select id="municipiSelect" class="bg-info-variant-2 w-full sm:w-1/2 p-2 border rounded-md">
                         <option value="">-- Selecciona un municipi --</option>
                         @foreach($municipis as $municipi)
                             <option value="{{ $municipi->id }}"
@@ -46,9 +43,6 @@
             <!-- Filtro dinámico por características -->
                 <form id="filterForm" method="GET" action="{{ route('botigues.mapa') }}" class="mb-6">
                     <div class="flex flex-col">
-                        <label class="block text-sm font-medium text-gray-700">
-                            Filtrar per característiques
-                        </label>
                     <!-- Botones toggle -->
                         <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
                             @foreach($caracteristiques as $carac)
@@ -58,7 +52,7 @@
                                 <button type="button"
                                         data-id="{{ $carac->id }}"
                                         class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
-                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
+                                            {{ $isSelected ? 'bg-info-variant-5 text-white' : 'bg-info-variant-2 text-gray-800 hover:bg-info-variant-2' }}">
                                     {{ $carac->nom }}
                                 </button>
                             @endforeach
@@ -84,8 +78,8 @@
             let currentMap = L.map('map');
 
             // Valores por defecto si no se ha seleccionado ningún municipio
-            let defaultCenter = [41.6663, 1.8597]; // Sant Vicenç de Castellet aproximado
-            let defaultZoom = 15.2;
+            let defaultCenter = [41.66856851, 1.86356038]; // Sant Vicenç de Castellet aproximado
+            let defaultZoom = 15;
 
             currentMap.setView(defaultCenter, defaultZoom);
 
@@ -172,5 +166,27 @@
                 });
             });
         });
+
+
+        const titleElement = document.getElementById('map-title');
+        const municipiSelect = document.getElementById('municipiSelect');
+
+        // Función para actualizar el título
+        function updateTitle() {
+            const selected = municipiSelect.options[municipiSelect.selectedIndex];
+            const municipiNombre = selected.text.trim();
+
+            if (municipiNombre && municipiNombre !== '-- Selecciona un municipi --') {
+                titleElement.textContent = `Mapa de Botigues a ${municipiNombre}`;
+            } else {
+                titleElement.textContent = 'Mapa de Botigues a Sant Vicenç de Castellet';
+            }
+        }
+
+        // Llamar al cargar por primera vez
+        updateTitle();
+
+        // Escuchar cambios en el selector
+municipiSelect.addEventListener('change', updateTitle);
     </script>
 </x-app-layout>

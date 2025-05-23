@@ -10,11 +10,9 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl p-6 bg-info-variant-1-5">
                 <!-- Formulario de filtrado -->
                 <!-- Filtro dinámico por características -->
-                <form id="filterForm" method="GET" action="{{ route('botigues.index') }}" class="mb-6">
+                <form id="filterForm" method="GET" action="{{ route('botigues.mapa') }}" class="mb-6">
                     <div class="flex flex-col">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Filtrar per característiques</label>
-
-                        <!-- Botones toggle -->
+                    <!-- Botones toggle -->
                         <div class="flex flex-wrap gap-2" id="caracteristiquesContainer">
                             @foreach($caracteristiques as $carac)
                                 @php
@@ -23,17 +21,15 @@
                                 <button type="button"
                                         data-id="{{ $carac->id }}"
                                         class="caracteristica-btn px-4 py-1 rounded-full text-sm font-medium transition-all duration-200
-                                            {{ $isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' }}">
+                                            {{ $isSelected ? 'bg-info-variant-5 text-white' : 'bg-info-variant-2 text-gray-800 hover:bg-info-variant-2' }}">
                                     {{ $carac->nom }}
                                 </button>
                             @endforeach
                         </div>
-
-                        <!-- Input oculto para IDs seleccionadas -->
+                    <!-- Input oculto para IDs seleccionadas -->
                         <input type="hidden" name="caracteristiques[]" id="selectedCaracteristiques" value="{{ request('caracteristiques') ? implode(',', request('caracteristiques')) : '' }}">
                     </div>
                 </form>
-
 
                 @if($botigues->isEmpty())
                     <p class="text-gray-600">No hi ha botigues registrades.</p>
@@ -44,9 +40,9 @@
                                     <!-- Imagen encima solo en móvil -->
                                 <div class="mb-4 md:hidden">
                                     @if($botiga->imatge)
-                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded w-full max-w-xs mx-auto object-cover">
+                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga"class="rounded w-full max-w-xs mx-auto object-cover h-32">
                                     @else
-                                        <img src="/img/Logo.png" alt="Imatge per defecte" class="rounded w-full max-w-xs mx-auto object-cover">
+                                        <img src="/img/Logo.png" alt="Imatge per defecte" class="rounded w-full max-w-xs mx-auto object-cover h-32 ">
                                     @endif
                                 </div>
                                 <div class="flex items-center justify-left">

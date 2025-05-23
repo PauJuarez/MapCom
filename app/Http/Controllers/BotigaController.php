@@ -105,15 +105,13 @@ class BotigaController extends Controller
     public function show($id):view
     {
         $botiga = Botiga::findOrFail($id);
-        
         // Calcular el promedio de las valoraciones y el total de reseñas
         $totalValoraciones = $botiga->ressenyes->sum('valoracio');  // Sumar todas las valoraciones
         $totalResenyas = $botiga->ressenyes->count();  // Contar las reseñas
-        
+        $ressenyesPaginades = $botiga->ressenyes()->paginate(4); 
         // Calcular el promedio de valoraciones (si hay reseñas)
         $promedioValoracion = $totalResenyas > 0 ? $totalValoraciones / $totalResenyas : 0;
-        
-        return view('botiga.show', compact('botiga', 'promedioValoracion', 'totalResenyas'));
+        return view('botiga.show', compact('botiga', 'promedioValoracion', 'totalResenyas', 'ressenyesPaginades'));
     }
     // Muestra un formulario para crear un nuevo producto
     public function create()
