@@ -38,9 +38,9 @@
                                     <!-- Imagen encima solo en móvil -->
                                 <div class="mb-4 md:hidden">
                                     @if($botiga->imatge)
-                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded w-full max-w-xs mx-auto object-cover">
+                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga"class="rounded w-full max-w-xs mx-auto object-cover h-32">
                                     @else
-                                        <img src="/img/Logo.png" alt="Imatge per defecte" class="rounded w-full max-w-xs mx-auto object-cover">
+                                        <img src="/img/Logo.png" alt="Imatge per defecte" class="rounded w-full max-w-xs mx-auto object-cover h-32 ">
                                     @endif
                                 </div>
                                 <div class="flex items-center justify-left">

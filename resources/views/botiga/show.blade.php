@@ -4,7 +4,8 @@
             Detalls ( "{{ $botiga->nom }}" )
         </h2>
     </x-slot>
-    <div class="flex flex-col md:flex-row gap-6">
+
+<div class="flex flex-col md:flex-row gap-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-0 bg-info-variant-1-5 border-b border-gray-200">
@@ -45,63 +46,74 @@
                             </span>
                         </div>
                     </div>
-                    <!-- Información de la tienda -->
-                        <div class="flex flex-col md:flex-row gap-6 p-6">
-                            <!-- Columna izquierda -->
-                            <div class="w-full md:w-1/2 space-y-4">
-                                <div class="flex flex-col w-full break-words overflow-hidden">
-                                    <strong class="text-info-variant-3">Adreça:</strong>
-                                    <p class="text-gray-700">{{ $botiga->adreca ?? 'No especificada' }}</p>
-                                </div>
 
-                                @if($botiga->web)
-                                <div>
+
+                    <!-- Información de la tienda -->
+                    <div class="flex items-start justify-between p-6">
+                        <div class="flex-1">
+                            <div class="flex flex-col w-96 break-words overflow-hidden">
+                                <strong class="text-info-variant-3">Adreça:</strong>
+                                <p class="text-gray-700">{{ $botiga->adreca ?? 'No especificada' }}</p>
+                            </div>
+                            <br>
+                            <div>
+                            @if($botiga->web)
+                                <div class="mb-4">
                                     <strong class="text-info-variant-3">Web:</strong>
-                                    <p class="text-gray-700 break-words">
-                                        <a href="{{ $botiga->web }}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 break-all">{{ $botiga->web }}</a>
+                                    <p class="text-gray-700">
+                                        <a href="{{ $botiga->web }}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">{{ $botiga->web }}</a>
                                     </p>
                                 </div>
-                                @endif
-
-                                @if($botiga->descripcio)
-                                <div class="flex flex-col w-full break-words overflow-hidden">
+                            @endif
+                        </div>
+                        <div class="flex flex-col w-full sm:w-96 md:w-[30rem] break-words overflow-hidden pr-10">
+                            @if($botiga->descripcio)
+                                <div class="mb-4">
                                     <strong class="text-info-variant-3">Descripció:</strong>
                                     <p class="text-gray-700 text-justify">{{ $botiga->descripcio }}</p>
                                 </div>
-                                @endif
-                            </div>
+                            @endif
+                        </div>
 
-                            <!-- Columna derecha -->
-                            <div class="w-full md:w-1/2 space-y-4">
+
+                        </div>
+                        <div>
+                            <div>
                                 @if($botiga->imatge)
-                                    <div>
-                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded-md w-full max-w-xs md:max-w-sm h-auto object-cover">
+                                    <div class="mb-4">
+                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded-md w-72 h-auto">
                                     </div>
                                 @endif
-
-                                @if($botiga->horariObertura && $botiga->horariTencament)
-                                    <div>
-                                        <strong class="text-info-variant-3">Horari d'Obertura i Tancament:</strong>
+                            </div>
+                            <div>
+                                @if($botiga->horariObertura&&$botiga->horariTencament)
+                                    <div class="mb-4">
+                                        <strong class="text-info-variant-3">Horari d'Obertura y Tancament:</strong>
                                         <p class="text-gray-700">{{ $botiga->horariObertura }} - {{ $botiga->horariTencament }}</p>
                                     </div>
                                 @endif
+                            </div>
+                            <div>
+                                @if($botiga->telefono&&$botiga->coreoelectronic)
+                                    <div class="mb-4">
+                                        <strong class="text-info-variant-3">Contractos:</strong>
+                                        <p class="text-gray-700">Telefono: {{ $botiga->telefono }}</p>
+                                        <p class="text-gray-700">Correo: {{ $botiga->coreoelectronic }}</p>
 
-                                @if($botiga->telefono && $botiga->coreoelectronic)
-                                    <div>
-                                        <strong class="text-info-variant-3">Contactes:</strong>
-                                        <p class="text-gray-700">Telèfon: {{ $botiga->telefono }}</p>
-                                        <p class="text-gray-700">Correu: {{ $botiga->coreoelectronic }}</p>
                                     </div>
                                 @endif
-
+                            </div>
+                            <div>
                                 @if($botiga->latitud && $botiga->longitud)
-                                    <div>
+                                    <div class="mb-4">
                                         <strong class="text-info-variant-3">Coordenades:</strong>
-                                        <p class="text-gray-700">Lat: {{ number_format($botiga->latitud, 2) }}, Lon: {{ number_format($botiga->longitud, 2) }}</p>
+                                        <p class="text-gray-700 ">  Lat: {{ number_format($botiga->latitud, 2) }}, Lon: {{ number_format($botiga->longitud, 2) }}</p>
                                     </div>
                                 @endif
                             </div>
                         </div>
+                    </div>
+
                     <!-- Información adicional -->
                     <div class="p-6">
                         <div class="flex items-start justify-between">
@@ -113,9 +125,8 @@
                                 @endif
                             </div>
                         </div>
-                        <div id="map" class="w-full h-64 md:h-96"></div>
+                        <div id="map" style="height: 300px;"></div>
                     </div>
-                    
                     <div class="p-6">
                         <!-- Mapa de la tienda -->
                         @if($botiga->latitud && $botiga->longitud)
@@ -152,6 +163,7 @@
                                 });
                             </script>
                         @endif
+
                         <!-- Botón para volver a la lista -->
                         <div class="mt-6">
                             <a href="{{ route('botigues.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
@@ -169,16 +181,20 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                     {{-- Iteramos sobre la colección paginada --}}
                                     @foreach($ressenyesPaginades as $r)
-                                        <div x-data="{ expanded: false }" 
+                                        <div 
+                                            x-data="{ expanded: false }" 
                                             @click="expanded = !expanded"
                                             class="inline-block w-72 flex-shrink-0 bg-white border rounded  p-4 cursor-pointer min-h-[10px]"
-                                            >
+                                        >
                                             <p class="font-semibold text-primary-variant-4">
                                                 {{ $r->usuari }} 
                                                 <span class="text-sm text-gray-500">({{ $r->valoracio }}/5)</span>
                                             </p>
 
-                                            <p class="text-sm mt-2 text-gray-700 break-words whitespace-normal transition-all duration-300 overflow-hidden" :class="expanded ? 'line-clamp-none max-h-full' : 'line-clamp-3 max-h-20'">
+                                            <p 
+                                                class="text-sm mt-2 text-gray-700 break-words whitespace-normal transition-all duration-300 overflow-hidden"
+    :class="expanded ? 'line-clamp-none max-h-full' : 'line-clamp-3 max-h-20'"
+                                            >
                                                 {{ $r->comentari }}
                                             </p>
 
@@ -194,7 +210,7 @@
                                                     <button type="submit"
                                                         class="text-red-500 hover:text-red-700 text-xs font-semibold"
                                                         onclick="return confirm('¿Estás seguro de que quieres eliminar esta reseña?')"
-                                                        >
+                                                    >
                                                         Eliminar reseña
                                                     </button>
                                                 </form>
