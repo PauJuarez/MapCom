@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-<div class="flex flex-col md:flex-row gap-6">
+    <div class="flex flex-col md:flex-row gap-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-0 bg-info-variant-1-5 border-b border-gray-200">
@@ -46,68 +46,63 @@
                             </span>
                         </div>
                     </div>
-
-
                     <!-- Información de la tienda -->
-                    <div class="flex items-start justify-between p-6">
-                        <div class="flex-1">
-                            <div class="flex flex-col w-96 break-words overflow-hidden">
-                                <strong class="text-info-variant-3">Adreça:</strong>
-                                <p class="text-gray-700">{{ $botiga->adreca ?? 'No especificada' }}</p>
+                    <div class="container p-6">
+                        <div class="row">
+                            <!-- Columna Izquierda -->
+                            <div class="col-12 col-md-8 mb-4 mb-md-0">
+                                <div class="d-flex flex-column break-word overflow-hidden">
+                                    <strong class="text-info-variant-3">Adreça:</strong>
+                                    <p class="text-gray-700">{{ $botiga->adreca ?? 'No especificada' }}</p>
+                                </div>
+
+                                @if($botiga->web)
+                                    <div class="mb-4 mt-4">
+                                        <strong class="text-info-variant-3">Web:</strong>
+                                        <p class="text-gray-700 mb-0 text-break">
+                                            <a href="{{ $botiga->web }}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 text-break">{{ $botiga->web }}</a>
+                                        </p>
+                                    </div>
+                                @endif
+
+                                @if($botiga->descripcio)
+                                    <div class="mb-4 mt-4">
+                                        <strong class="text-info-variant-3">Descripció:</strong>
+                                        <p class="text-gray-700 text-justify">{{ $botiga->descripcio }}</p>
+                                    </div>
+                                @endif
                             </div>
-                            <br>
-                            <div>
-                            @if($botiga->web)
-                                <div class="mb-4">
-                                    <strong class="text-info-variant-3">Web:</strong>
-                                    <p class="text-gray-700">
-                                        <a href="{{ $botiga->web }}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">{{ $botiga->web }}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="flex flex-col w-full sm:w-96 md:w-[30rem] break-words overflow-hidden pr-10">
-                            @if($botiga->descripcio)
-                                <div class="mb-4">
-                                    <strong class="text-info-variant-3">Descripció:</strong>
-                                    <p class="text-gray-700 text-justify">{{ $botiga->descripcio }}</p>
-                                </div>
-                            @endif
-                        </div>
 
-
-                        </div>
-                        <div>
-                            <div>
+                            <!-- Columna Derecha -->
+                            <div class="col-12 col-md-4">
                                 @if($botiga->imatge)
                                     <div class="mb-4">
-                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="rounded-md w-72 h-auto">
+                                        <img src="{{ $botiga->imatge }}" alt="Imatge de la botiga" class="img-fluid rounded">
                                     </div>
                                 @endif
-                            </div>
-                            <div>
-                                @if($botiga->horariObertura&&$botiga->horariTencament)
+
+                                @if($botiga->horariObertura && $botiga->horariTencament)
                                     <div class="mb-4">
-                                        <strong class="text-info-variant-3">Horari d'Obertura y Tancament:</strong>
-                                        <p class="text-gray-700">{{ $botiga->horariObertura }} - {{ $botiga->horariTencament }}</p>
+                                        <strong class="text-info-variant-3">Horari d'Obertura i Tancament:</strong>
+                                        <p class="text-gray-700 mb-0">{{ $botiga->horariObertura }} - {{ $botiga->horariTencament }}</p>
                                     </div>
                                 @endif
-                            </div>
-                            <div>
-                                @if($botiga->telefono&&$botiga->coreoelectronic)
+
+                                @if($botiga->telefono && $botiga->coreoelectronic)
                                     <div class="mb-4">
                                         <strong class="text-info-variant-3">Contractos:</strong>
-                                        <p class="text-gray-700">Telefono: {{ $botiga->telefono }}</p>
-                                        <p class="text-gray-700">Correo: {{ $botiga->coreoelectronic }}</p>
-
+                                        <p class="text-gray-700 mb-0">Telèfon: {{ $botiga->telefono }}</p>
+                                        <p class="text-gray-700 mb-0">Correu: {{ $botiga->coreoelectronic }}</p>
                                     </div>
                                 @endif
-                            </div>
-                            <div>
+
                                 @if($botiga->latitud && $botiga->longitud)
                                     <div class="mb-4">
                                         <strong class="text-info-variant-3">Coordenades:</strong>
-                                        <p class="text-gray-700 ">  Lat: {{ number_format($botiga->latitud, 2) }}, Lon: {{ number_format($botiga->longitud, 2) }}</p>
+                                        <p class="text-gray-700 mb-0">
+                                            Lat: {{ number_format($botiga->latitud, 2) }},
+                                            Lon: {{ number_format($botiga->longitud, 2) }}
+                                        </p>
                                     </div>
                                 @endif
                             </div>
@@ -191,10 +186,7 @@
                                                 <span class="text-sm text-gray-500">({{ $r->valoracio }}/5)</span>
                                             </p>
 
-                                            <p 
-                                                class="text-sm mt-2 text-gray-700 break-words whitespace-normal transition-all duration-300 overflow-hidden"
-    :class="expanded ? 'line-clamp-none max-h-full' : 'line-clamp-3 max-h-20'"
-                                            >
+                                            <p class="text-sm mt-2 text-gray-700 break-words whitespace-normal transition-all duration-300 overflow-hidden" :class="expanded ? 'line-clamp-none max-h-full' : 'line-clamp-3 max-h-20'">
                                                 {{ $r->comentari }}
                                             </p>
 
