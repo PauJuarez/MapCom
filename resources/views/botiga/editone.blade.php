@@ -10,8 +10,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('botigues.update', ['id' => $botiga->id]) }}">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 bg-primary-variant-1">
+                    <form method="POST" action="{{ route('botigues.update', ['id' => $botiga->id]) }}">
                     @csrf
                     @method('PUT')
 
@@ -21,7 +21,7 @@
                                    class="block text-sm font-medium text-gray-700 ">{{ __('Nom') }}</label>
                             <input type="text" name="nom" id="nom"
                                    value="{{ old('nom', $botiga->nom) }}"
-                                   class="form-control mt-1 rounded-md"
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
                                    required>
                         </div>
                         <div class="col-md-6">
@@ -29,7 +29,7 @@
                                    class="block text-sm font-medium text-gray-700">{{ __('Adreça') }}</label>
                             <input type="text" name="adreca" id="adreca"
                                    value="{{ old('adreca', $botiga->adreca) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                     </div>
 
@@ -37,7 +37,7 @@
                         <label for="descripcio"
                                class="block text-sm font-medium text-gray-700">{{ __('Descripció') }}</label>
                         <textarea name="descripcio" id="descripcio" rows="3"
-                                  class="form-control mt-1 rounded-md">{{ old('descripcio', $botiga->descripcio) }}</textarea>
+                                  class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">{{ old('descripcio', $botiga->descripcio) }}</textarea>
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
@@ -46,7 +46,7 @@
                             <div class="input-group">
                                 <input type="url" name="web" id="web"
                                        value="{{ old('web', $botiga->web) }}"
-                                       class="form-control mt-1 rounded-md"
+                                       class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
                                        placeholder="https://www.ejemplo.com">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
@@ -64,14 +64,14 @@
                                    class="block text-sm font-medium text-gray-700">{{ __('Horari d\'Obertura') }}</label>
                             <input type="time" name="horariObertura" id="horariObertura"
                                    value="{{ old('horariObertura', $botiga->horariObertura) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                         <div class="col-md-6">
                             <label for="horariTencament"
                                    class="block text-sm font-medium text-gray-700">{{ __('Horari de Tancament') }}</label>
                             <input type="time" name="horariTencament" id="horariTencament"
                                    value="{{ old('horariTencament', $botiga->horariTencament) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                             <div class="input-group">
                                 <input type="tel" name="telefono" id="telefono"
                                        value="{{ old('telefono', $botiga->telefono) }}"
-                                       class="form-control mt-1 rounded-md"
+                                       class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
                                        placeholder="Ej: +34 123 456 789">
                             </div>
                             <small class="form-text text-muted">Formato: +34 Código País Número</small>
@@ -103,7 +103,7 @@
                                    class="block text-sm font-medium text-gray-700">{{ __('Correu Electrònic') }}</label>
                             <input type="email" name="coreoelectronic" id="coreoelectronic"
                                    value="{{ old('coreoelectronic', $botiga->coreoelectronic) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                             <small class="form-text text-muted">Ej: correo@ejemplo.com</small>
                         </div>
                     </div>
@@ -114,21 +114,21 @@
                                    class="block text-sm font-medium text-gray-700">{{ __('Latitud') }}</label>
                             <input type="text" name="latitud" id="latitud"
                                    value="{{ old('latitud', $botiga->latitud) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                         <div class="col-md-3">
                             <label for="longitud"
                                    class="block text-sm font-medium text-gray-700">{{ __('Longitud') }}</label>
                             <input type="text" name="longitud" id="longitud"
                                    value="{{ old('longitud', $botiga->longitud) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                         <div class="col-md-6">
                             <label for="imatge"
                                    class="block text-sm font-medium text-gray-700">{{ __('Imatge') }}</label>
                             <input type="text" name="imatge" id="imatge"
                                    value="{{ old('imatge', $botiga->imatge) }}"
-                                   class="form-control mt-1 rounded-md">
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
 
                         </div>
                     </div>
@@ -143,42 +143,40 @@
                         </div>
                     </div>
 
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700">Característiques:</label>
 
-
-<div class="mb-6">
-    <label class="block text-sm font-medium text-gray-700">Característiques:</label>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        @foreach ($caracteristiques as $caracteristica)
-            <div class="flex items-center space-x-2">
-                <input
-                    type="checkbox"
-                    name="caracteristiques[]"
-                    value="{{ $caracteristica->id }}"
-                    id="caracteristica_{{ $caracteristica->id }}"
-                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    @if (is_array(old('caracteristiques')) && in_array($caracteristica->id, old('caracteristiques')))
-                        checked
-                    @elseif (isset($botiga) && $botiga->caracteristiques->contains($caracteristica->id))
-                        checked
-                    @endif
-                >
-                <label for="caracteristica_{{ $caracteristica->id }}" class="text-sm text-gray-700">
-                    {{ $caracteristica->nom }}
-                </label>
-            </div>
-        @endforeach
-    </div>
-</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach ($caracteristiques as $caracteristica)
+                                <div class="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="caracteristiques[]"
+                                        value="{{ $caracteristica->id }}"
+                                        id="caracteristica_{{ $caracteristica->id }}"
+                                        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                        @if (is_array(old('caracteristiques')) && in_array($caracteristica->id, old('caracteristiques')))
+                                            checked
+                                        @elseif (isset($botiga) && $botiga->caracteristiques->contains($caracteristica->id))
+                                            checked
+                                        @endif
+                                    >
+                                    <label for="caracteristica_{{ $caracteristica->id }}" class="text-sm text-gray-700">
+                                        {{ $caracteristica->nom }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
 
 
                     
                     <div class="flex items-center justify-between mt-6">
                         <a href="{{ route('botigues.index') }}" class="btn btn-secondary">
-                            {{ __('Volver') }}
+                            {{ __('Tornar') }}
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Guardar Cambios') }}
+                            {{ __('Desar Canvis') }}
                         </button>
                     </div>
                 </form>

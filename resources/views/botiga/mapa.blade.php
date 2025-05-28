@@ -187,6 +187,6 @@
         updateTitle();
 
         // Escuchar cambios en el selector
-municipiSelect.addEventListener('change', updateTitle);
+        municipiSelect.addEventListener('change', updateTitle);
     </script>
 </x-app-layout>
