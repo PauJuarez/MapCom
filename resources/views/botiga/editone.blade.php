@@ -5,28 +5,27 @@
         </h2>
     </x-slot>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 bg-primary-variant-1">
-                    <form method="POST" action="{{ route('botigues.update', ['id' => $botiga->id]) }}">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 bg-primary-variant-1">
+                <form method="POST" action="{{ route('botigues.update', ['id' => $botiga->id]) }}">
                     @csrf
                     @method('PUT')
 
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="nom"
-                                   class="block text-sm font-medium text-gray-700 ">{{ __('Nom') }}</label>
+                            <label for="nom" class="block text-sm font-medium text-gray-700">{{ __('Nom') }}</label>
                             <input type="text" name="nom" id="nom"
                                    value="{{ old('nom', $botiga->nom) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
                                    required>
                         </div>
                         <div class="col-md-6">
-                            <label for="adreca"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Adreça') }}</label>
+                            <label for="adreca" class="block text-sm font-medium text-gray-700">{{ __('Adreça') }}</label>
                             <input type="text" name="adreca" id="adreca"
                                    value="{{ old('adreca', $botiga->adreca) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
@@ -34,24 +33,21 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="descripcio"
-                               class="block text-sm font-medium text-gray-700">{{ __('Descripció') }}</label>
+                        <label for="descripcio" class="block text-sm font-medium text-gray-700">{{ __('Descripció') }}</label>
                         <textarea name="descripcio" id="descripcio" rows="3"
                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">{{ old('descripcio', $botiga->descripcio) }}</textarea>
                     </div>
+
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <label for="web"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Web') }}</label>
+                            <label for="web" class="block text-sm font-medium text-gray-700">{{ __('Web') }}</label>
                             <div class="input-group">
                                 <input type="url" name="web" id="web"
                                        value="{{ old('web', $botiga->web) }}"
                                        class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
                                        placeholder="https://www.ejemplo.com">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">
-                                         <i class="fas fa-link"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="fas fa-link"></i></span>
                                 </div>
                             </div>
                             <small class="form-text text-muted">Ej: https://www.ejemplo.com</small>
@@ -60,15 +56,13 @@
 
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="horariObertura"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Horari d\'Obertura') }}</label>
+                            <label for="horariObertura" class="block text-sm font-medium text-gray-700">{{ __('Horari d\'Obertura') }}</label>
                             <input type="time" name="horariObertura" id="horariObertura"
                                    value="{{ old('horariObertura', $botiga->horariObertura) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                         <div class="col-md-6">
-                            <label for="horariTencament"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Horari de Tancament') }}</label>
+                            <label for="horariTencament" class="block text-sm font-medium text-gray-700">{{ __('Horari de Tancament') }}</label>
                             <input type="time" name="horariTencament" id="horariTencament"
                                    value="{{ old('horariTencament', $botiga->horariTencament) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
@@ -78,29 +72,18 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label for="telefono" class="block text-sm font-medium text-gray-700">{{ __('Telèfon') }}</label>
-                            <div class="input-group">
-                                <input type="tel" name="telefono" id="telefono"
-                                       value="{{ old('telefono', $botiga->telefono) }}"
-                                       class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
-                                       placeholder="Ej: +34 123 456 789">
-                            </div>
+                            <input type="tel" name="telefono" id="telefono"
+                                   value="{{ old('telefono', $botiga->telefono) }}"
+                                   class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md"
+                                   placeholder="Ej: +34 123 456 789">
                             <small class="form-text text-muted">Formato: +34 Código País Número</small>
                             <div id="phoneDisplayArea" style="margin-top: 10px;">
                                 <strong>Teléfono:</strong>
-                                <span id="phoneNumberDisplay">
-                                    {{-- El número de teléfono formateado se mostrará aquí --}}
-                                    <script>
-                                        const telefonoValue = "{{ old('telefono', $botiga->telefono) }}";
-                                        if (telefonoValue) {
-                                            document.getElementById('phoneNumberDisplay').innerHTML = `<a href="tel:${telefonoValue.replace(/\s/g, '')}">${telefonoValue}</a>`;
-                                        }
-                                    </script>
-                                </span>
+                                <span id="phoneNumberDisplay"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="coreoelectronic"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Correu Electrònic') }}</label>
+                            <label for="coreoelectronic" class="block text-sm font-medium text-gray-700">{{ __('Correu Electrònic') }}</label>
                             <input type="email" name="coreoelectronic" id="coreoelectronic"
                                    value="{{ old('coreoelectronic', $botiga->coreoelectronic) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
@@ -110,28 +93,25 @@
 
                     <div class="row mb-4">
                         <div class="col-md-3">
-                            <label for="latitud"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Latitud') }}</label>
+                            <label for="latitud" class="block text-sm font-medium text-gray-700">{{ __('Latitud') }}</label>
                             <input type="text" name="latitud" id="latitud"
                                    value="{{ old('latitud', $botiga->latitud) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                         <div class="col-md-3">
-                            <label for="longitud"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Longitud') }}</label>
+                            <label for="longitud" class="block text-sm font-medium text-gray-700">{{ __('Longitud') }}</label>
                             <input type="text" name="longitud" id="longitud"
                                    value="{{ old('longitud', $botiga->longitud) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
                         </div>
                         <div class="col-md-6">
-                            <label for="imatge"
-                                   class="block text-sm font-medium text-gray-700">{{ __('Imatge') }}</label>
+                            <label for="imatge" class="block text-sm font-medium text-gray-700">{{ __('Imatge') }}</label>
                             <input type="text" name="imatge" id="imatge"
                                    value="{{ old('imatge', $botiga->imatge) }}"
                                    class="bg-info-variant-1 form-control mt-1 border-gray-300 rounded-md">
-
                         </div>
                     </div>
+
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <div id="mapContainer" class="d-flex" style="height: 300px; margin-top: 10px; gap: 20px;">
@@ -145,7 +125,6 @@
 
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700">Característiques:</label>
-
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             @foreach ($caracteristiques as $caracteristica)
                                 <div class="flex items-center space-x-2">
@@ -157,7 +136,7 @@
                                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                         @if (is_array(old('caracteristiques')) && in_array($caracteristica->id, old('caracteristiques')))
                                             checked
-                                        @elseif (isset($botiga) && $botiga->caracteristiques->contains($caracteristica->id))
+                                        @elseif ($botiga->caracteristiques->contains($caracteristica->id))
                                             checked
                                         @endif
                                     >
@@ -169,8 +148,6 @@
                         </div>
                     </div>
 
-
-                    
                     <div class="flex items-center justify-between mt-6">
                         <a href="{{ route('botigues.index') }}" class="btn btn-secondary">
                             {{ __('Tornar') }}
@@ -184,105 +161,105 @@
         </div>
     </div>
 
-<!-- Leaflet -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet @1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet @1.9.4/dist/leaflet.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const imageInput = document.getElementById('imatge');
+        const imagePreview = document.getElementById('imagePreview');
+        const mapDiv = document.getElementById('map');
+        const imageDisplay = document.getElementById('imageDisplay');
+        const telefonoInput = document.getElementById('telefono');
+        const latitudInput = document.getElementById('latitud');
+        const longitudInput = document.getElementById('longitud');
 
-<!-- Tu script -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const imageInput = document.getElementById('imatge');
-    const imagePreview = document.getElementById('imagePreview');
-    const mapDiv = document.getElementById('map');
-    const imageDisplay = document.getElementById('imageDisplay');
-    const telefonoInput = document.getElementById('telefono');
-    const latitudInput = document.getElementById('latitud');
-    const longitudInput = document.getElementById('longitud');
+        let map, marker;
 
-    let map;
-    let marker;
+        function initMap() {
+            const defaultCoords = [41.6663, 1.8597];
+            map = L.map('map').setView(defaultCoords, 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
 
-    function initMap() {
-        const catalunyaCenter = [41.6663, 1.8597];
+            marker = L.marker(defaultCoords).addTo(map);
+            marker.bindPopup("Selecciona una ubicació fent clic al mapa").openPopup();
 
-        map = L.map('map').setView(catalunyaCenter, 15);
+            if (latitudInput.value && longitudInput.value) {
+                const lat = parseFloat(latitudInput.value);
+                const lng = parseFloat(longitudInput.value);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    const position = [lat, lng];
+                    map.setView(position, 15);
+                    marker.setLatLng(position).bindPopup(`Ubicació seleccionada:<br>Lat: ${lat}<br>Lng: ${lng}`);
+                }
+            }
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright ">OpenStreetMap</a> contributors'
-        }).addTo(map);
+            map.on('click', function (e) {
+                const { lat, lng } = e.latlng;
+                latitudInput.value = lat.toFixed(6);
+                longitudInput.value = lng.toFixed(6);
+                marker.setLatLng([lat, lng])
+                      .bindPopup(`Ubicació seleccionada:<br>Lat: ${lat.toFixed(6)}<br>Lng: ${lng.toFixed(6)}`)
+                      .openPopup();
+            });
+        }
 
-        marker = L.marker(catalunyaCenter).addTo(map);
-        marker.bindPopup("Selecciona una ubicació fent clic al mapa").openPopup();
-
-        if (latitudInput && longitudInput && latitudInput.value && longitudInput.value) {
-            const lat = parseFloat(latitudInput.value);
-            const lng = parseFloat(longitudInput.value);
-            if (!isNaN(lat) && !isNaN(lng)) {
-                const initialLatLng = [lat, lng];
-                map.setView(initialLatLng, 15);
-                marker.setLatLng(initialLatLng);
-                marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6));
+        function toggleImageVisibility(url) {
+            if (url) {
+                imagePreview.src = url;
+                imageDisplay.style.display = 'flex';
+            } else {
+                imagePreview.src = '#';
+                imageDisplay.style.display = 'none';
             }
         }
 
-        map.on('click', function(e) {
-            const lat = e.latlng.lat;
-            const lng = e.latlng.lng;
-            latitudInput.value = lat.toFixed(6);
-            longitudInput.value = lng.toFixed(6);
-            marker.setLatLng([lat, lng]);
-            marker.bindPopup("Ubicació seleccionada:<br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
+        function formatPhoneNumber(input) {
+            let numbers = input.value.replace(/\D/g, '');
+            if (numbers.startsWith('34') && numbers.length === 11) {
+                input.value = '+' + numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5, 8) + ' ' + numbers.substring(8);
+            }
+        }
+
+        function updatePhoneDisplay(value) {
+            const cleanValue = value.replace(/\s/g, '');
+            const display = document.getElementById('phoneNumberDisplay');
+            if (display) {
+                display.innerHTML = `<a href="tel:${cleanValue}">${value}</a>`;
+            }
+        }
+
+        telefonoInput?.addEventListener('input', function () {
+            formatPhoneNumber(this);
+            updatePhoneDisplay(this.value);
         });
-    }
 
-    function updateMap() {
-        const lat = parseFloat(latitudInput?.value);
-        const lng = parseFloat(longitudInput?.value);
-        if (!isNaN(lat) && !isNaN(lng)) {
-            const newLatLng = [lat, lng];
-            map.setView(newLatLng, 15);
-            marker.setLatLng(newLatLng);
-        }
-    }
+        imageInput?.addEventListener('input', function () {
+            toggleImageVisibility(this.value);
+        });
 
-    function toggleImageVisibility(imageUrl) {
-        if (imageUrl) {
-            imagePreview.src = imageUrl;
-            imageDisplay.style.display = 'flex';
-        } else {
-            imageDisplay.style.display = 'none';
-            imagePreview.src = '#';
-        }
-    }
+        latitudInput?.addEventListener('input', function () {
+            const lat = parseFloat(this.value);
+            const lng = parseFloat(longitudInput.value);
+            if (!isNaN(lat) && !isNaN(lng)) {
+                map.setView([lat, lng], 15);
+                marker.setLatLng([lat, lng]);
+            }
+        });
 
-    function formatPhoneNumber(input) {
-        let numbers = input.value.replace(/\D/g, '');
-        let formattedNumber = numbers;
-        if (numbers.startsWith('34') && numbers.length === 11) {
-            formattedNumber = '+' + numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5, 8) + ' ' + numbers.substring(8);
-        }
-        input.value = formattedNumber;
-    }
+        longitudInput?.addEventListener('input', function () {
+            const lat = parseFloat(latitudInput.value);
+            const lng = parseFloat(this.value);
+            if (!isNaN(lat) && !isNaN(lng)) {
+                map.setView([lat, lng], 15);
+                marker.setLatLng([lat, lng]);
+            }
+        });
 
-    telefonoInput?.addEventListener('input', function() {
-        formatPhoneNumber(this);
+        window.onload = () => {
+            initMap();
+            toggleImageVisibility(imageInput?.value);
+            updatePhoneDisplay(telefonoInput?.value);
+        };
     });
-
-    imageInput?.addEventListener('input', function () {
-        toggleImageVisibility(this.value);
-    });
-
-    latitudInput?.addEventListener('input', updateMap);
-    longitudInput?.addEventListener('input', updateMap);
-
-    window.onload = function () {
-        initMap();
-        toggleImageVisibility(imageInput?.value);
-        const telefonoValue = "{{ old('telefono', $botiga->telefono) }}";
-        if (telefonoValue) {
-            document.getElementById('phoneNumberDisplay').innerHTML = `<a href="tel:${telefonoValue.replace(/\s/g, '')}">${telefonoValue}</a>`;
-        }
-    };
-});
-</script>
+    </script>
 </x-app-layout>
