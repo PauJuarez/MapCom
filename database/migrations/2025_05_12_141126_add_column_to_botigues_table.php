@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('botigues', function (Blueprint $table) {
             $table->time('horariObertura')->nullable();
             $table->time('horariTencament')->nullable();
-            $table->integer('telefono')->nullable(); // corregido
+            $table->integer('telefono')->nullable();
             $table->string('coreoelectronic')->nullable();
             $table->string('web')->nullable();
             $table->string('imatge')->nullable();

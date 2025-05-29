@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('ressenyas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('botiga_id'); // Relación con botigues
-            $table->unsignedBigInteger('user_id');   // Relación con users (opcional pero recomendable)
+            $table->unsignedBigInteger('botiga_id');
+            $table->unsignedBigInteger('user_id'); 
             $table->string('usuari');
             $table->text('comentari');
-            $table->tinyInteger('valoracio'); // 1-5
-            $table->timestamp('dataPublicacio')->nullable(); // Mejor usar timestamp
+            $table->tinyInteger('valoracio');
+            $table->timestamp('dataPublicacio')->nullable();
             $table->timestamps();
 
             $table->foreign('botiga_id')->references('id')->on('botigues')->onDelete('cascade');
